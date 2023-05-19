@@ -56,3 +56,34 @@ create table flights (
     constraint fk_departure_city_id foreign key (departure_city_id) references cities(id),
     constraint fk_arrival_city_id foreign key (arrival_city_id) references cities(id)
 )
+/
+
+declare
+    type varr is varray(4) of varchar2(50);
+    type varr_1 is varray(4) of integer;
+    type varr_2 is varray(4) of integer;
+    v_crew_list varr := varr('Pilot', 'Copilot', 'Flight Engineer', 'Flight Attendant');
+    v_hours varr_1 := varr_1(75, 75, 40, 85);
+    v_ids varr_2 := varr_2(1, 2, 3, 4);
+    v_nume varchar2(50);
+    v_id integer;
+    v_hour integer;
+    v_statement varchar2(1000);
+    v_ok integer;
+    v_cursor integer;
+begin
+    v_cursor := dbms_sql.open_cursor();
+    for v_i in 1..4 loop
+        --v_nume := lista_nume(TRUNC(DBMS_RANDOM.VALUE(0,lista_nume.count))+1);
+        v_nume :=  v_crew_list(v_i);
+        v_hour := v_hours(v_i);
+        v_id := v_ids(v_i);
+        --insert into crew (id, name, max_hours) values (v_id, v_nume, v_hour);
+        v_statement := 'insert into crew (id, name, max_hours) values ('||v_id||', '''||v_nume||''', '||v_hour||')';
+        dbms_output.put_line(v_statement);
+        dbms_sql.parse(v_cursor, v_statement, dbms_sql.native);
+        v_ok := dbms_sql.execute(v_cursor);
+
+    end loop;
+    dbms_sql.close_cursor(v_cursor);
+end;
