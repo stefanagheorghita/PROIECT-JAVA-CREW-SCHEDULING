@@ -57,7 +57,13 @@ create table flights (
     constraint fk_arrival_city_id foreign key (arrival_city_id) references cities(id)
 )
 /
-
+create table users (
+    id int not null  primary key,
+    password varchar2(100) not null,
+    employee_id integer not null,
+    constraint fk_employee foreign key (employee_id) references employees(id)
+)
+/
 declare
     type varr is varray(4) of varchar2(50);
     type varr_1 is varray(4) of integer;
@@ -98,3 +104,4 @@ begin
     dbms_sql.close_cursor(v_cursor);
     dbms_sql.close_cursor(v_cursor2);
 end;
+
