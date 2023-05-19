@@ -71,8 +71,12 @@ declare
     v_statement varchar2(1000);
     v_ok integer;
     v_cursor integer;
+    v_cursor2 integer;
+    v_ok2 integer;
+    v_statement2 varchar2(1000);
 begin
     v_cursor := dbms_sql.open_cursor();
+     v_cursor2 := dbms_sql.open_cursor();
     for v_i in 1..4 loop
         --v_nume := lista_nume(TRUNC(DBMS_RANDOM.VALUE(0,lista_nume.count))+1);
         v_nume :=  v_crew_list(v_i);
@@ -83,7 +87,14 @@ begin
         dbms_output.put_line(v_statement);
         dbms_sql.parse(v_cursor, v_statement, dbms_sql.native);
         v_ok := dbms_sql.execute(v_cursor);
-
+        v_nume := REPLACE(trim(v_nume), ' ', '_');
+        v_statement2:='create table '|| v_nume || '(id int not null, ' ||
+                      'employee_id int not null, ' ||
+                      'constraint fk_crew_employee_id'||v_i || ' foreign key (employee_id) references employees(id) )';
+         dbms_output.put_line(v_statement2);
+        dbms_sql.parse(v_cursor2, v_statement2, dbms_sql.native);
+        v_ok2 := dbms_sql.execute(v_cursor2);
     end loop;
     dbms_sql.close_cursor(v_cursor);
+    dbms_sql.close_cursor(v_cursor2);
 end;
