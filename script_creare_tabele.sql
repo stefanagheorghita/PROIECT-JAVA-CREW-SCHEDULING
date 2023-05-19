@@ -57,11 +57,12 @@ create table flights (
     constraint fk_arrival_city_id foreign key (arrival_city_id) references cities(id)
 )
 /
-create table users (
-    id int not null  primary key,
-    password varchar2(100) not null,
-    employee_id integer not null,
-    constraint fk_employee foreign key (employee_id) references employees(id)
+create table users
+(
+    id          int           not null primary key,
+    password    varchar2(100) not null,
+    employee_id integer       not null,
+    constraint fk_employee foreign key (employee_id) references employees (id)
 )
 /
 declare
