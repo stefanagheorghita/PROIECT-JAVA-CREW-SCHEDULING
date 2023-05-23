@@ -11,13 +11,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements UserDetailsService {
 
+
+
     @Autowired
     private UserRepository userRepository;
 
     public void registerUser(User user) {
+
         String hashedPassword = example.config.AppSecurityConfig.getPasswordEncoder().encode(user.getPassword());
         user.setPassword(hashedPassword);
         userRepository.save(user);
+
+       // String hashedPassword = AppSecurityConfig.getPasswordEncoder().encode(user.getPassword());
+       // user.setPassword(hashedPassword);
+        //userRepository.save(user);
     }
 
     @Override

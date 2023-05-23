@@ -165,7 +165,7 @@
         <form class="signup-page-form">
             <div class="enter-name">
                 <div class="name">EMPLOYEE ID</div>
-                <input type="text" placeholder="Enter id" required autofocus>
+                <input type="text" id="employeeId" placeholder="Enter id" required autofocus>
             </div>
             <!-- <div class="enter-email">
                 <div class="email">EMAIL</div>
@@ -173,14 +173,53 @@
             </div> -->
             <div class="enter-password">
                 <div class="password">PASSWORD</div>
-                <input type="password" placeholder="Enter password" required>
+                <input type="password" id="password" placeholder="Enter password" required>
             </div>
             <div class="enter-dob">
                 <div class="dob">CONFIRM PASSWORD</div>
-                <input type="password" placeholder="Confirm password" required>
+                <input type="password" id="confirmPassword" placeholder="Confirm password" required>
             </div>
             <button class="signup-button" type="submit">Sign in</button>
         </form>
+
+        <script>
+            document.querySelector(".signup-page-form").addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                // Get the values from the input fields
+                var employeeId = document.getElementById("employeeId").value;
+                var password = document.getElementById("password").value;
+                var confirmPassword = document.getElementById("confirmPassword").value;
+
+                // Check if the passwords match
+                if (password !== confirmPassword) {
+                    alert("Passwords do not match");
+                    return;
+                }
+
+                // Create an object with the form data
+                var formData = {
+                    username: employeeId,
+                    password: password
+                };
+                console.log(formData.password);
+                console.log(formData.username);
+                // Send the form data to the server using AJAX
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/register", true); // Replace "/register" with your server-side endpoint URL
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                        // Request was successful, handle the response if needed
+                        console.log(xhr.responseText);
+                        window.location.href = "/success"; // Redirect to the success page
+                    }
+                };
+                xhr.send(JSON.stringify(formData));
+            });
+        </script>
+
+
         <br>
         <br>
 
