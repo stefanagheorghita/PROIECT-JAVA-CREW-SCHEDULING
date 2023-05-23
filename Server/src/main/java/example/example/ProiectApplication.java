@@ -1,6 +1,6 @@
 //package com.example;
 //
-//import com.server.ServerApplication;
+//import com.com.ServerApplication;
 //import org.springframework.boot.SpringApplication;
 //import org.springframework.boot.autoconfigure.SpringBootApplication;
 //

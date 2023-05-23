@@ -1,6 +1,6 @@
-package com.repository;
+package example.repository;
 
-import com.model.entity.Crew;
+import example.model.entity.Crew;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

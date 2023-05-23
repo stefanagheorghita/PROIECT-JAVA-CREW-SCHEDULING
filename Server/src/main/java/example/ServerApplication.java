@@ -1,6 +1,5 @@
-package com.server;
+package example;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,7 +8,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 @SpringBootApplication
-public class ServerApplication implements CommandLineRunner {
+public class ServerApplication
+     //   implements CommandLineRunner
+{
 
     private ServerSocket serverSocket;
 
@@ -17,10 +18,10 @@ public class ServerApplication implements CommandLineRunner {
         SpringApplication.run(ServerApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        startServer();
-    }
+//    @Override
+//    public void run(String... args) throws Exception {
+//      //  startServer();
+//    }
 
     private void startServer() {
         try {

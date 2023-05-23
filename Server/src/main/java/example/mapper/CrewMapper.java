@@ -1,7 +1,7 @@
-package com.mapper;
+package example.mapper;
 
-import com.model.dto.CrewDto;
-import com.model.entity.Crew;
+import example.model.dto.CrewDto;
+import example.model.entity.Crew;
 
 public class CrewMapper {
 

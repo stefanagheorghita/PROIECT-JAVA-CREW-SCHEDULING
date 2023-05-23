@@ -1,4 +1,4 @@
-package com.model.entity;
+package example.model.entity;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
 

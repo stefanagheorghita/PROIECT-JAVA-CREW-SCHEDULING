@@ -1,4 +1,5 @@
-package com.model.entity;
+package example.model.entity;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,18 +14,15 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "crew")
-public class Crew {
+@Table(name = "countries")
+public class Country {
 
     @GeneratedValue
     @Id
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
-
-    @Column(name = "max_hours")
-    private int maxHours;
 
     @Column(name = "created_at")
     private Timestamp createdAt;

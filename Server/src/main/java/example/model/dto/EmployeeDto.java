@@ -1,6 +1,5 @@
-package com.model.dto;
+package example.model.dto;
 
-import com.model.entity.Crew;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

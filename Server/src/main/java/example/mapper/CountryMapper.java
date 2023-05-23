@@ -1,7 +1,7 @@
-package com.mapper;
+package example.mapper;
 
-import com.model.dto.CountryDto;
-import com.model.entity.Country;
+import example.model.dto.CountryDto;
+import example.model.entity.Country;
 
 public class CountryMapper {
 

@@ -65,6 +65,55 @@ create table users
     constraint fk_employee foreign key (employee_id) references employees (id)
 )
 /
+
+CREATE TYPE crew_assignment_type AS OBJECT (
+    crew_role INT,
+    employee_id INT
+);
+/
+CREATE TYPE crew_assignment_table_type AS TABLE OF crew_assignment_type;
+
+/
+CREATE TABLE flight_assignments (
+    id INT NOT NULL PRIMARY KEY,
+    flight_id INT NOT NULL,
+    crew_assignments crew_assignment_table_type,
+    CONSTRAINT fk_flight_assig_flight_id FOREIGN KEY (flight_id) REFERENCES flights(id)
+) NESTED TABLE crew_assignments STORE AS lista;
+/
+
+CREATE OR REPLACE TRIGGER trg_flight_assignments_fk
+BEFORE INSERT OR UPDATE ON flight_assignments
+FOR EACH ROW
+    DECLARE
+    dummy NUMBER;
+BEGIN
+    FOR i IN 1..:new.crew_assignments.COUNT LOOP
+        BEGIN
+            SELECT 1
+            INTO dummy
+            FROM crew
+            WHERE id = :new.crew_assignments(i).crew_role;
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                RAISE_APPLICATION_ERROR(-20001, 'Invalid crew role: ' || :new.crew_assignments(i).crew_role);
+        END;
+
+        BEGIN
+            SELECT 1
+            INTO dummy
+            FROM employees
+            WHERE id = :new.crew_assignments(i).employee_id;
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                RAISE_APPLICATION_ERROR(-20002, 'Invalid employee ID: ' || :new.crew_assignments(i).employee_id);
+        END;
+    END LOOP;
+END;
+/
+
+
+/
 declare
     type varr is varray(4) of varchar2(50);
     type varr_1 is varray(4) of integer;
@@ -105,4 +154,23 @@ begin
     dbms_sql.close_cursor(v_cursor);
     dbms_sql.close_cursor(v_cursor2);
 end;
+/
+
+CREATE OR REPLACE TRIGGER delete_employees_trigger
+BEFORE DELETE ON crew
+FOR EACH ROW
+BEGIN
+    DELETE FROM employees WHERE crew_id = :OLD.id;
+END;
+/
+
+CREATE OR REPLACE TRIGGER delete_user_trigger
+BEFORE DELETE ON employees
+FOR EACH ROW
+BEGIN
+    DELETE FROM users WHERE employee_id = :OLD.id;
+END;
+/
+
+
 
