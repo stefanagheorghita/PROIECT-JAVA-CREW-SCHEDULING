@@ -1,4 +1,4 @@
-package com.model;
+package com.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
@@ -24,4 +25,10 @@ public class Crew {
 
     @Column(name = "max_hours")
     private int maxHours;
+
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
 }

@@ -1,10 +1,10 @@
-package com.model;
+package com.model.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -23,7 +23,7 @@ public class Employee extends Person {
     private String lastName;
 
     @Column(name = "birthdate")
-    private LocalDate birthDate;
+    private Timestamp birthDate;
 
     @Column(name = "gender")
     private String gender;
@@ -33,10 +33,10 @@ public class Employee extends Person {
     private Crew crew;
 
     @Column(name = "created_at")
-    private LocalDate createdAt;
+    private Timestamp createdAt;
 
     @Column(name = "updated_at")
-    private LocalDate updatedAt;
+    private Timestamp updatedAt;
 
 
 
