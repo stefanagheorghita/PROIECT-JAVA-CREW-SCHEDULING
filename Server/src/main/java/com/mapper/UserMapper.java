@@ -16,9 +16,9 @@ public class UserMapper {
     }
 
     public static User fromDto(UserDto userDto) {
-        return Airport.builder()
+        return User.builder()
                 .id(userDto.getId())
-                .employee(EmployeeMapper.fromDto(employeeDto.getEmployeeDto()))
+                .employee(EmployeeMapper.fromDto(userDto.getEmployeeDto()))
                 .build();
     }
 }

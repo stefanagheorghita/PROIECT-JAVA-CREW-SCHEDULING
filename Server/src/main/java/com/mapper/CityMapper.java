@@ -16,7 +16,7 @@ public class CityMapper {
         return City.builder()
                 .id(CityDto.getId())
                 .name(CityDto.getName())
-                .country(CountryMapper.fromDto(CountryDto.getCountryDto()))
+                .country(CountryMapper.fromDto(CityDto.getCountryDto()))
                 .build();
     }
 }

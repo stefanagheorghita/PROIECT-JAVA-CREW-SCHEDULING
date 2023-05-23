@@ -3,6 +3,7 @@ package com.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @Data
@@ -23,9 +24,11 @@ public class Employee extends Person {
             nullable = false)
     private String lastName;
 
+
     @Column(name = "birthdate",
             nullable = false)
     private LocalDate birthDate;
+
 
     @Column(name = "gender",
             nullable = false)
@@ -37,10 +40,10 @@ public class Employee extends Person {
     private Crew crew;
 
     @Column(name = "created_at")
-    private LocalDate createdAt;
+    private Timestamp createdAt;
 
     @Column(name = "updated_at")
-    private LocalDate updatedAt;
+    private Timestamp updatedAt;
 
 
 

@@ -19,7 +19,7 @@ public class FlightMapper {
                 .build();
     }
 
-    public static FlightDto fromDto(FlightDto flightDto){
+    public static Flight fromDto(FlightDto flightDto){
         return Flight.builder()
                 .id(flightDto.getId())
                 .destination(flightDto.getDestination())
