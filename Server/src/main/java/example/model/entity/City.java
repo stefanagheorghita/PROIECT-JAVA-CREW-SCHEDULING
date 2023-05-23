@@ -13,25 +13,27 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "crew")
-public class Crew {
-
+@Table(name = "cities")
+public class City {
     @GeneratedValue
     @Id
     private Long id;
 
     @Column(name = "name",
-            unique = true)
-    private String name;
-    
-    @Column(name = "max_hours",
             nullable = false)
-    private Integer maxHours;
+    private String name;
+
+    @ManyToOne
+    @Column (name = "country_id",
+            nullable = false)
+    private Country country;
 
     @Column(name = "created_at")
     private Timestamp createdAt;
 
     @Column(name = "updated_at")
     private Timestamp updatedAt;
+
+
 
 }
