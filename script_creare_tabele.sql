@@ -106,3 +106,21 @@ begin
     dbms_sql.close_cursor(v_cursor2);
 end;
 
+ CREATE OR REPLACE TRIGGER delete_cities_trigger
+BEFORE DELETE ON countries
+FOR EACH ROW
+BEGIN
+    DELETE FROM cities WHERE country_id = :OLD.id;
+END;
+/
+
+
+CREATE OR REPLACE TRIGGER delete_flights_trigger
+BEFORE DELETE ON cities
+FOR EACH ROW
+BEGIN
+    DELETE FROM flights
+    WHERE departure_city_id = :OLD.id OR arrival_city_id = :OLD.id;
+END;
+/
+

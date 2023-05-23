@@ -1,10 +1,9 @@
-package com.model;
+package com.model.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -16,20 +15,25 @@ public class Employee extends Person {
     @GeneratedValue
     @Id
     private Long id;
-    @Column(name = "first_name")
+    @Column(name = "first_name",
+            nullable = false)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name",
+            nullable = false)
     private String lastName;
 
-    @Column(name = "birthdate")
+    @Column(name = "birthdate",
+            nullable = false)
     private LocalDate birthDate;
 
-    @Column(name = "gender")
+    @Column(name = "gender",
+            nullable = false)
     private String gender;
 
     @ManyToOne
-    @JoinColumn(name = "crew_id")
+    @JoinColumn(name = "crew_id",
+            nullable = false)
     private Crew crew;
 
     @Column(name = "created_at")
