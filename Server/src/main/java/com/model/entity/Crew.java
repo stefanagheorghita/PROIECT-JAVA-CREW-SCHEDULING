@@ -23,7 +23,7 @@ public class Crew {
     @Column(name = "name",
             unique = true)
     private String name;
-    
+
     @Column(name = "max_hours",
             nullable = false)
     private Integer maxHours;
