@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body{
+      background: linear-gradient(to right, #333399, #ff00cc);
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      min-height: 90vh;
+      font-family: Arial, Roboto;
+      padding: 0;
+      margin: 0;
+    }
+
+    .login-page{
+      padding: 4rem;
+      width: 300px;
+      border-radius: 15px;
+      background: white;
+      position: relative;
+      margin-top: 20px;
+
+    }
+
+    .login-page::before{
+      content:'';
+      position: absolute;
+      background: rgba(255, 255, 255, 0.4);
+      inset: 0;
+      transform: rotate(-6deg);
+      z-index: -1;
+      border-radius: 15px;
+    }
+
+    .logo{
+      margin-bottom: 2rem;
+    }
+
+    .icon{
+      height: 60px;
+    }
+
+    .icon img{
+      width: 60px;
+
+    }
+
+    .login-header,
+    .sign-up,
+    .login-social-platforms{
+      text-align: center;
+    }
+
+    .remember-forget a:hover,
+    .sign-up a:hover{
+      color: #3b3a3a;
+      text-decoration: underline;
+    }
+
+
+
+    .login-header {
+      margin: 2rem;
+    }
+
+    .login-header h1{
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-header h1 + div {
+      font-size: calc(1rem * 0.8);
+      opacity: 0.8;
+    }
+
+    .login-page-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .remember-forget{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: calc(1rem * 0.8);
+      margin-bottom: 0.5rem;
+    }
+
+    .sign-up{
+      margin-top: 1.5rem;
+      font-size: calc(1rem * 0.8);
+    }
+
+    .login-page input[type = "text"],
+    .login-page input[type = "password"]{
+      border: 1px #c0c0c0 solid;
+      outline: none;
+      background: #c0c0c0;
+      padding: 20px;
+      padding-left: 10px;
+      border-radius: 20px;
+      width: 93%;
+      transition: 0.15s;
+      opacity: 1;
+      font-size: 13px;
+    }
+
+    .login-page input[type = "text"]:hover,
+    .login-page input[type = "password"]:hover{
+      opacity: 0.6;
+
+    }
+
+    .login-page input[placeholder = "Enter name"],
+    .login-page input[placeholder = "Enter password"]{
+      color: #36454f;
+    }
+
+    .name,
+    .password{
+      color: #4c1111;
+      font: italic small-caps bold 12px/30px Georgia, serif;
+    }
+
+    .sign-message{
+      color: #4c1111;
+    }
+
+    .login-button{
+      border: 1px black solid;
+      outline: none;
+      background: black;
+      color: white;
+      padding: 20px;
+      padding-left: 10px;
+      border-radius: 20px;
+      width: 104%;
+      transition: 0.15s;
+      opacity: 1;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .login-button:hover{
+      opacity: 0.7;
+    }
+
+    .login-button:active{
+      background-color: white;
+      color: black;
+    }
+
+
+    .login-page input[type = "checkbox"]{
+      width: 15px;
+      height: 15px;
+      accent-color: black;
+    }
+
+    .checkbox,
+    .remember-forget a,
+    .sign-up,
+    .sign-up a,
+    .login-social-platforms{
+      color: #4c1111;
+    }
+
+    .social-platforms a{
+      text-decoration: none;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    .remember-forget a,
+    .social-platforms a,
+    .sign-up a{
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .login-social-platforms{
+      margin-top: 5.5px;
+    }
+
+    .social-platforms{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 3px;
+    }
+
+    .social-platforms a:hover{
+      transform: scale(1.2)
+    }
+
+    @media (max-width: 768px){
+      body{
+        padding: 2rem 0;
+      }
+
+      .login-page{
+        width: 300px;
+        padding: 2rem;
+      }
+    }
+
+  </style>
+
+  <script>
+    function showAlert() {
+      var phoneNumber = "123-456-7890"; // Replace with your desired phone number
+      alert("Call this number: " + phoneNumber);
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Roboto:wght@100;300&display=swap" rel="stylesheet">
+  <title>Login</title>
+</head>
+<body>
+
+<div class="login-page-container">
+  <div class="login-page">
+    <div class="login-header">
+      <div class="logo">
+        <img class="icon" src="/resources/air6.svg" alt="Login logo">
+      </div>
+      <div class="title">
+        <h1>Login</h1>
+      </div>
+      <div class="sign-message">
+        Sign in to continue.
+      </div>
+    </div>
+    <!-- <form class="login-page-form">
+      <div class="enter-name">
+        <div class="name">EMPLOYEE ID</div>
+        <input type="text" placeholder="Enter id" required autofocus>
+      </div>
+      <div class="enter-password">
+        <div class="password">PASSWORD</div>
+        <input type="password" placeholder="Enter password" required>
+      </div>
+      <div class="remember-forget">
+        <div class="checkbox">
+          <input type="checkbox" id="rememberMe">
+          <label for="rememberMe">Remember me</label>
+        </div>
+        <a href="#" onclick="showAlert()">Forgot Password?</a>
+      </div>
+      <button class="login-button" type="submit">Log in</button>
+    </form> -->
+
+    <form class="login-page-form" id="loginForm">
+      <div class="enter-name">
+        <div class="name">EMPLOYEE ID</div>
+        <input type="text" id="employeeId" placeholder="Enter id" required autofocus>
+      </div>
+      <div class="enter-password">
+        <div class="password">PASSWORD</div>
+        <input type="password" id="password" placeholder="Enter password" required>
+      </div>
+      <div class="remember-forget">
+        <div class="checkbox">
+          <input type="checkbox" id="rememberMe">
+          <label for="rememberMe">Remember me</label>
+        </div>
+        <a href="#" onclick="showAlert()">Forgot Password?</a>
+      </div>
+      <button class="login-button" type="submit">Log in</button>
+    </form>
+    <script>
+      document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        // Get the values from the input fields
+        var employeeId = document.getElementById("employeeId").value;
+        var password = document.getElementById("password").value;
+        console.log(employeeId);
+        console.log(password);
+        // Create an object with the form data
+        var formData = {
+          employeeId: employeeId,
+          password: password
+        };
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/login", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            console.log(xhr.responseText);
+          }
+        };
+        xhr.send(JSON.stringify(formData));
+      });
+
+    </script>
+
+    <div class="sign-up">
+      Don't have an account?
+      <a href="signup.html">Signup here!</a>
+    </div>
+    <div class="login-social-platforms">
+      <div>Log in with</div>
+      <div class="social-platforms">
+        <a href="https://www.facebook.com">
+          <svg style="color: blue" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" fill="blue">
+            </path>
+          </svg>
+        </a>
+        <a href="https://www.google.com/">
+          <svg style="color: blue" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+            <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" fill="blue">
+            </path>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <br>
+  </div>
+</div>
+</body>
+</html>
