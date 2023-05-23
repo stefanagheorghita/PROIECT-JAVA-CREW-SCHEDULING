@@ -23,7 +23,7 @@ public class User {
     private String password;
 
     @OneToOne
-    @Column(name = "employee_id",
+    @JoinColumn(name = "employee_id",
             nullable = false)
     private Employee employee;
 
