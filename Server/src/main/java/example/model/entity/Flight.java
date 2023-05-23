@@ -23,12 +23,12 @@ public class Flight {
     private String destination;
 
     @ManyToOne
-    @Column(name = "departure_city_id",
+    @JoinColumn(name = "departure_city_id",
             nullable = false)
     private City departureCity;
 
     @ManyToOne
-    @Column(name = "arrival_city_id",
+    @JoinColumn(name = "arrival_city_id",
             nullable = false)
     private City arrivalCity;
 
