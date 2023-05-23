@@ -19,9 +19,6 @@ public class RegistrationController {
     @PostMapping("/register")
     @ResponseBody
     public String registerUser(String username, String password) {
-        // Add your logic here to process the submitted data
-        // For example, you can store the user information in a database
-        // or perform any necessary validation or business logic
         System.out.println("Username: " + username);
         System.out.println("Password: " + password);
 

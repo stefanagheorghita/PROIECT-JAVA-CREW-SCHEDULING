@@ -14,14 +14,8 @@ public class LoginController {
     public String login(@RequestBody LoginForm loginForm) {
         String employeeId = loginForm.getEmployeeId();
         String password = loginForm.getPassword();
-
-        // Process the submitted data
-        // ...
-
         System.out.println("Employee ID: " + employeeId);
         System.out.println("Password: " + password);
-
-        // Redirect to a success page or perform any other desired action
         return "Login successful";
     }
 
