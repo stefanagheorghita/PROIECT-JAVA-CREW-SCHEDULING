@@ -18,11 +18,11 @@ public class EmployeesGenerator {
         Faker faker = new Faker(new Locale("en"));
         int numRecords = 500;
         String csvFilePath = "D:/employees.csv";
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+       // DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         GenderPrediction genderPrediction = new GenderPrediction();
         LocalDate minBirthdate = LocalDate.of(1958, 1, 1);
         LocalDate maxBirthdate = LocalDate.of(2004, 12, 31);
-
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         long minDay = minBirthdate.toEpochDay();
         long maxDay = maxBirthdate.toEpochDay();
         try {
@@ -32,8 +32,9 @@ public class EmployeesGenerator {
                 String id = Integer.toString(i);
                 String firstName = faker.name().firstName();
                 String lastName = faker.name().lastName();
-                long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
-                LocalDate birth = LocalDate.ofEpochDay(randomDay);
+               // long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
+              //  LocalDate birth = LocalDate.ofEpochDay(randomDay);
+                Date birth = faker.date().birthday(18,65);
                 String birthdate = dateFormat.format(birth);
                 String gender = genderPrediction.predict(firstName);
                 int crewIdNumber = getRandomNumberWithProbabilities(1, 4, new double[]{0.15, 0.2, 0.2, 0.45});
