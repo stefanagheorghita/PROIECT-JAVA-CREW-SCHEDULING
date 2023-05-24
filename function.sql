@@ -11,7 +11,7 @@ CREATE OR REPLACE FUNCTION load_employees_from_csv RETURN NUMBER IS
   l_updated_at DATE;
 BEGIN
   v_fisier := UTL_FILE.FOPEN('MYDIR', 'employees.csv', 'R');
-
+      UTL_FILE.GET_LINE(v_fisier, l_line);
   LOOP
     BEGIN
       UTL_FILE.GET_LINE(v_fisier, l_line);
