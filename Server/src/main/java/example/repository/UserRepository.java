@@ -11,14 +11,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "SELECT * FROM users", nativeQuery = true)
     List<User> findAll();
 
     @Query(value = "SELECT * FROM users where id=:id", nativeQuery = true)
-    User findUserById(Long id);
+    User findUserById(int id);
 
     @Query(value = "SELECT * FROM users where employee_id = :employee_id", nativeQuery = true)
-    User findByEmployeeId(@Param("employee_id") Long employee_id);
+    User findByEmployeeId(@Param("employee_id") int employeeId);
 
 }

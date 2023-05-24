@@ -17,9 +17,10 @@ import java.util.Collection;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-    @GeneratedValue
     @Id
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQUENCE1")
+    @SequenceGenerator(name="SEQUENCE1", sequenceName="SEQUENCE1", allocationSize=1)
+    private int id;
 
     @Column(name = "password",
             nullable = false)
@@ -38,7 +39,8 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return employee.getId().toString();
+        return String.valueOf(employee.getId());
+
     }
 
     @Override
@@ -59,5 +61,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public void setEmployeeId(int employeeId) {
+
     }
 }

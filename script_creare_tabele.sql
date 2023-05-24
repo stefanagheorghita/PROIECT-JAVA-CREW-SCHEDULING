@@ -191,3 +191,7 @@ BEGIN
     WHERE departure_city_id = :OLD.id OR arrival_city_id = :OLD.id;
 END;
 /
+
+
+CREATE SEQUENCE SEQUENCE1 START WITH 1 INCREMENT BY 1;
+

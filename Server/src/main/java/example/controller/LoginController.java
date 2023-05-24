@@ -1,33 +1,51 @@
 package example.controller;
 
+import example.model.entity.User;
+import example.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class LoginController {
+
+    @Autowired
+    private UserService userService;
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginForm loginForm) {
-        String employeeId = loginForm.getEmployeeId();
+    public ResponseEntity<Object> login(@RequestBody LoginForm loginForm) {
+        int employeeId = loginForm.getEmployeeId();
         String password = loginForm.getPassword();
+         boolean match=example.config.AppSecurityConfig.getPasswordEncoder().matches(password, userService.findUserByEmployeeId(employeeId).getPassword());
+
+        User user = userService.findUserByEmployeeId(employeeId);
         System.out.println("Employee ID: " + employeeId);
         System.out.println("Password: " + password);
-        return "Login successful";
+       // System.out.println("Hashed Password: " + hashedPassword);
+        System.out.println("Hashed Password user: " + user);
+        if(user == null) {
+            return ResponseEntity.ok("Incorrect employee ID");
+        }
+        if(!match) {
+            return ResponseEntity.ok("Incorrect password");
+        }
+        return ResponseEntity.ok("success");
     }
 
     public static class LoginForm {
-        private String employeeId;
+        private int employeeId;
         private String password;
 
-        public String getEmployeeId() {
+        public int getEmployeeId() {
             return employeeId;
         }
 
-        public void setEmployeeId(String employeeId) {
+        public void setEmployeeId(int employeeId) {
             this.employeeId = employeeId;
         }
 
