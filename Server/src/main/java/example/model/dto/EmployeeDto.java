@@ -20,6 +20,8 @@ public class EmployeeDto {
     private String lastName;
     private Timestamp birthDate;
 
+    private String gender;
+
     private CrewDto crew;
 
     private Timestamp createdAt;

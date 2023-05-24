@@ -3,8 +3,11 @@ package example.repository;
 import example.model.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Collection;
 import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
@@ -23,4 +26,14 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
 
 
 
+    @Query(value = "DECLARE " +
+            "  v_employees SYS_REFCURSOR; " +
+            "BEGIN " +
+            "  v_employees \\:= get_employees_by_occupation(:occupationId); " +
+            "  OPEN :result FOR v_employees; " +
+            "END;", nativeQuery = true)
+    List<Employee> findPilots(@Param("occupationId") int occupationId, @Param("result") Object result);
+
+    @Query(value="select * from employees where crew_id in (select id from crew where name = :name)", nativeQuery = true)
+    List<Employee> findEmployeesByCrewName(@Param("name") String name);
 }

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Employees</title>
+    <link rel="stylesheet" href="/resources/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+ $(document).ready(function() {
+  var employeesPerPage = 50;
+  var currentPage = 1;
+
+  function getEmployees(page) {
+    var startIndex = (page - 1) * employeesPerPage;
+    var endIndex = startIndex + employeesPerPage;
+    $.ajax({
+      url: "/employees/pilots",
+      type: "POST",
+      success: function(response) {
+        var employees = response.slice(startIndex, endIndex);
+        updateTable(employees);
+      },
+      error: function(xhr, status, error) {
+        console.log("Error: " + error);
+      }
+    });
+  }
+
+
+  function updateTable(data) {
+    var tableBody = $(".table tbody");
+    tableBody.empty();
+
+
+    data.forEach(function(employee) {
+
+       var formattedBirthDate = "";
+       var formattedCreatedAt = "";
+      if (employee.birthDate) {
+        var birthDate = new Date(employee.birthDate);
+        if (!isNaN(birthDate.getTime())) {
+          var options = { day: "2-digit", month: "2-digit", year: "numeric" };
+          formattedBirthDate = birthDate.toLocaleDateString(undefined, options);
+        }
+      }
+   var createdAt = new Date(employee.createdAt);
+        if (!isNaN(createdAt.getTime())) {
+            var options = { day: "2-digit", month: "2-digit", year: "numeric" };
+            formattedCreatedAt = createdAt.toLocaleDateString(undefined, options);
+        }
+      var row =
+        "<tr>" +
+        "<td>" + employee.firstName + "</td>" +
+        "<td>" + employee.lastName + "</td>" +
+        "<td>" + formattedBirthDate + "</td>" +
+        "<td>" + employee.gender + "</td>" +
+        "<td>" + employee.crew.name + "</td>" +
+        "<td>" + formattedCreatedAt + "</td>" +
+        "</tr>";
+      tableBody.append(row);
+    });
+  }
+
+  function navigateToPage(page) {
+    currentPage = page;
+    getEmployees(currentPage);
+  }
+
+  getEmployees(currentPage);
+
+
+  $(".pagination .prev").click(function() {
+  console.log("prev");
+    if (currentPage > 1) {
+      navigateToPage(currentPage - 1);
+    }
+  });
+
+  $(".pagination .next").click(function() {
+    console.log("next");
+    var totalPages = Math.ceil(500 / employeesPerPage);
+    if (currentPage < totalPages) {
+      navigateToPage(currentPage + 1);
+    }
+  });
+});
+
+  </script>
+</head>
+<body>
+<div class="container">
+    <nav>
+        <ul>
+            <li><a href="http://localhost:8084/home" class="logo">
+                <img src="/resources/avion.png">
+                <span class="nav-item">Admin</span>
+            </a></li>
+            <li><a href="http://localhost:8084/home">
+                <i class="fas fa-home"></i>
+                <span class="nav-item">Home</span>
+            </a></li>
+            <li><a href="#">
+                <i class="fas fa-bullhorn"></i>
+                <span class="nav-item">Flights</span>
+            </a></li>
+            <li><a href="http://localhost:8084/employees">
+                <i class="fas fa-user"></i>
+                <span class="nav-item">Employees</span>
+                </a></li>
+            <li><a href="#">
+                <i class="fas fa-calendar"></i>
+                <span class="nav-item">Schedule</span>
+            </a></li>
+            <li><a href="#"></a></li>
+            <li><a href="http://localhost:8084/login" class="logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="nav-item">Log out</span>
+            </a></li>
+        </ul>
+    </nav>
+
+    <section class="main">
+        <div class="main-top">
+            <h1>EMPLOYEES</h1>
+            <i class="fas fa-user-cog"></i>
+        </div>
+        <div class="users">
+            <div class="users">
+                <div class="card">
+                    <img src="/resources/pilot.png">
+                    <h4>PILOTS</h4>
+                    <p id="pilotsCount"></p>
+
+                    <script>
+    fetch('http://localhost:8084/employees/pilots/count')
+        .then(response => response.json())
+        .then(data => {
+            // Extract the pilots count from the response
+            const pilotsCount = data;
+
+           console.log(pilotsCount);
+            const pilotsCountElement = document.getElementById('pilotsCount');
+            pilotsCountElement.textContent = pilotsCount;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+</script>
+
+                    <button onclick="redirectToPilots()">Show</button>
+                    <script>
+                function redirectToPilots() {
+                  window.location.href = "/employees/pilots";
+                }
+          </script>
+                </div>
+                <div class="card">
+                    <img src="/resources/cop.jpg">
+                    <h4>COPILOTS</h4>
+                    <p id="copilotsCount"></p>
+
+                    <script>
+    fetch('http://localhost:8084/employees/copilots/count')
+        .then(response => response.json())
+        .then(data => {
+            const copilotsCount = data;
+
+           console.log(copilotsCount);
+            const copilotsCountElement = document.getElementById('copilotsCount');
+            copilotsCountElement.textContent = copilotsCount;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+</script>
+                    <button onclick="redirectToCopilots()">Show</button>
+                    <script>
+                function redirectToCopilots() {
+                  window.location.href = "/employees/copilots";
+                }
+          </script>
+                </div>
+                <div class="card">
+                    <img src="/resources/fe.png">
+                    <h4>FLIGHT ENGINEERS</h4>
+                    <p id="enCount"></p>
+
+                    <script>
+    fetch('http://localhost:8084/employees/flight_engineers/count')
+        .then(response => response.json())
+        .then(data => {
+            const enCount = data;
+
+            const enCountElement = document.getElementById('enCount');
+            enCountElement.textContent = enCount;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+</script>
+                    <button onclick="redirectToE()">Show</button>
+                    <script>
+                function redirectToE() {
+                  window.location.href = "/employees/flight_engineers";
+                }
+          </script>
+                </div>
+                <div class="card">
+                    <img src="/resources/st.png">
+                    <h4>FLIGHT ATTENDANTS</h4>
+                    <p id="atCount"></p>
+
+                    <script>
+    fetch('http://localhost:8084/employees/copilots/count')
+        .then(response => response.json())
+        .then(data => {
+            const atCount = data;
+
+            const atCountElement = document.getElementById('atCount');
+            atCountElement.textContent = atCount;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+</script>
+                    <button onclick="redirectToAt()">Show</button>
+                    <script>
+                function redirectToAt() {
+                  window.location.href = "/employees/flight_attendants";
+                }
+          </script>
+                </div>
+            </div>
+        </div>
+
+
+        <section class="attendance">
+            <div class="attendance-list">
+                <h1>Our Pilots</h1>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>BirthDate</th>
+                        <th>Gender</th>
+                        <th>Occupation</th>
+                        <th>Works here since</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <button class="prev">Previous</button>
+                    <button class="next">Next</button>
+                </div>
+            </div>
+        </section>
+    </section>
+</div>
+
+</body>
+</html>

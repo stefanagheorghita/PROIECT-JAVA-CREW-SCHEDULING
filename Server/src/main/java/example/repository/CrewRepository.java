@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CrewRepository extends JpaRepository<Crew,Long> {
+public interface CrewRepository extends JpaRepository<Crew,Integer> {
 
     @Query(value = "SELECT * FROM crew where id=:id", nativeQuery = true)
-    Crew findCrewById(@Param("id")Long id);
+    Crew findCrewById(@Param("id")int id);
 
     @Query(value = "SELECT * FROM crew where name=:name", nativeQuery = true)
     Crew findCrewByName(@Param("name")String name);

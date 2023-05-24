@@ -39,7 +39,6 @@ BEGIN
         EXIT;
     END;
   END LOOP;
-dbms_output.put_line('eeee');
   UTL_FILE.FCLOSE(v_fisier);
   RETURN SQL%ROWCOUNT;
 EXCEPTION
@@ -59,4 +58,93 @@ BEGIN
     dbms_output.put_line('AM adaugat ' || v_nr);
 end;
 
-select * from employees;
+/
+
+
+
+DECLARE
+  l_created_at DATE;
+  l_updated_at DATE;
+BEGIN
+  l_created_at := TRUNC(SYSDATE) - INTERVAL '10' YEAR;
+  l_updated_at := l_created_at;
+
+  FOR emp IN (SELECT id, birthdate, created_at, updated_at FROM employees) LOOP
+      l_created_at := TRUNC(SYSDATE) - INTERVAL '10' YEAR;
+     l_created_at := l_created_at + DBMS_RANDOM.VALUE(0, SYSDATE - l_created_at);
+    DECLARE
+      l_age_diff NUMBER;
+    BEGIN
+      SELECT EXTRACT(YEAR FROM l_created_at) - EXTRACT(YEAR FROM emp.birthdate)
+      INTO l_age_diff
+      FROM DUAL;
+
+      IF l_age_diff >= 18 THEN
+        l_updated_at := l_created_at;
+        dbms_output.put_line(emp.id || l_created_at);
+      ELSE
+        l_created_at :=emp.CREATED_AT;
+        l_updated_at := emp.created_at;
+      END IF;
+    END;
+
+    UPDATE employees
+    SET created_at = l_created_at,
+        updated_at = l_updated_at
+    WHERE id = emp.id;
+  END LOOP;
+
+  COMMIT;
+END;
+/
+
+
+
+CREATE OR REPLACE FUNCTION get_employees_by_occupation(occupation_id IN NUMBER)
+  RETURN SYS_REFCURSOR
+IS
+  v_result SYS_REFCURSOR;
+BEGIN
+  OPEN v_result FOR
+    SELECT e.*
+    FROM employees e
+    WHERE e.crew_id IN (
+      SELECT id
+      FROM crew
+      WHERE occupation_id = occupation_id
+    );
+
+  RETURN v_result;
+END;
+/
+
+
+
+DECLARE
+  TYPE occupation_ids_t IS VARRAY(10) OF NUMBER;
+  v_occupation_ids occupation_ids_t;
+  v_employees SYS_REFCURSOR;
+  v_employee employees%ROWTYPE;
+ v_occupation_name varchar2(100);
+BEGIN
+  SELECT id
+  BULK COLLECT INTO v_occupation_ids
+  FROM crew;
+
+  FOR i IN 1..v_occupation_ids.COUNT LOOP
+        select name into v_occupation_name from crew where id=v_occupation_ids(i);
+        dbms_output.put_line(v_occupation_name ||':');
+        v_employees := get_employees_by_occupation(v_occupation_ids(i));
+        LOOP
+            FETCH v_employees INTO v_employee;
+            DBMS_OUTPUT.PUT_LINE(v_employee.FIRST_NAME|| ' '||v_employee.LAST_NAME);
+            EXIT WHEN v_employees%NOTFOUND;
+         END LOOP;
+        CLOSE v_employees;
+        DBMS_OUTPUT.NEW_LINE();
+        DBMS_OUTPUT.NEW_LINE();
+  END LOOP;
+END;
+/
+
+

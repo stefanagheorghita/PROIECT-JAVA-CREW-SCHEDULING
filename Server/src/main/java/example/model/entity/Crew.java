@@ -18,7 +18,7 @@ public class Crew {
 
     @GeneratedValue
     @Id
-    private Long id;
+    private int id;
 
     @Column(name = "name",
             unique = true)

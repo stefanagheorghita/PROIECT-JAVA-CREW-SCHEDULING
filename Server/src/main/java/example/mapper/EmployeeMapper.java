@@ -11,7 +11,10 @@ public class EmployeeMapper {
                .firstName(employee.getFirstName())
                .lastName(employee.getLastName())
                .birthDate(employee.getBirthDate())
+               .gender(employee.getGender())
                .crew(CrewMapper.toDto(employee.getCrew()))
+               .createdAt(employee.getCreatedAt())
+                .updatedAt(employee.getUpdatedAt())
                .build();
     }
 
@@ -21,7 +24,10 @@ public class EmployeeMapper {
                 .firstName(employeeDto.getFirstName())
                 .lastName(employeeDto.getLastName())
                 .birthDate(employeeDto.getBirthDate())
+                .gender(employeeDto.getGender())
                 .crew(CrewMapper.fromDto(employeeDto.getCrew()))
+                .createdAt(employeeDto.getCreatedAt())
+                .updatedAt(employeeDto.getUpdatedAt())
                 .build();
     }
 }

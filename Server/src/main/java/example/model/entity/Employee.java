@@ -12,6 +12,14 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "employees")
+@NamedStoredProcedureQuery(
+        name = "Employee.findPilots",
+        procedureName = "get_employees_by_occupation",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "occupation_id", type = Integer.class),
+                @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, name = "result", type = void.class)
+        }
+)
 public class Employee  {
     @GeneratedValue
     @Id
