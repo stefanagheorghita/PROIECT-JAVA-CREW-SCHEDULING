@@ -196,23 +196,28 @@
                     alert("Passwords do not match");
                     return;
                 }
-
                 // Create an object with the form data
                 var formData = {
-                    username: employeeId,
+                    employeeId: employeeId,
                     password: password
                 };
                 console.log(formData.password);
-                console.log(formData.username);
+                console.log(formData.employeeId);
                 // Send the form data to the server using AJAX
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", "/register", true); // Replace "/register" with your server-side endpoint URL
+                xhr.open("POST", "/register", true);
                 xhr.setRequestHeader("Content-Type", "application/json");
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                        // Request was successful, handle the response if needed
-                        console.log(xhr.responseText);
-                        window.location.href = "/success"; // Redirect to the success page
+                        if(xhr.responseText === "Incorrect employee ID")
+                            {window.location.href = "/register";
+                            alert(xhr.responseText);}
+                         else if(xhr.responseText === "User already exists")
+                            {window.location.href = "/login";
+                            alert(xhr.responseText);}
+                        else
+                       {window.location.href = "/login";
+                            alert(xhr.responseText);}
                     }
                 };
                 xhr.send(JSON.stringify(formData));

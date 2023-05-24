@@ -1,10 +1,22 @@
 package example.controller;
 
+import example.model.entity.Employee;
+import example.model.entity.User;
+import example.service.EmployeeService;
+import example.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class RegistrationController {
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private EmployeeService employeeService;
 
     @GetMapping
     public String hello() {
@@ -19,35 +31,35 @@ public class RegistrationController {
 
     @PostMapping("/register")
     @ResponseBody
-    public String register(@RequestBody RegisterForm registerForm) {
-        String employeeId = registerForm.getEmployeeId();
+    public ResponseEntity<Object> register(@RequestBody RegisterForm registerForm) {
+        Long employeeId = registerForm.getEmployeeId();
         String password = registerForm.getPassword();
-
-        // Process the registration data
-        // ...
-
         System.out.println("Employee ID: " + employeeId);
         System.out.println("Password: " + password);
+        Employee employee = employeeService.findEmployeeById(employeeId);
 
-        // Redirect to a success page or perform any other desired action
-        return "Registration successful";
+        if(employee == null) {
+            return ResponseEntity.ok("Incorrect employee ID");
+        }
+        User user = userService.findUserByEmployeeId(employeeId);
+        if(user != null) {
+            return ResponseEntity.ok("User already exists");
+        }
+
+        return ResponseEntity.ok("Account created");
     }
 
-    // Inner class for the registration form
     public static class RegisterForm {
-        private String employeeId;
+        private Long employeeId;
         private String password;
-
-        // Default constructor
         public RegisterForm() {
         }
 
-        // Getters and setters
-        public String getEmployeeId() {
+        public Long getEmployeeId() {
             return employeeId;
         }
 
-        public void setEmployeeId(String employeeId) {
+        public void setEmployeeId(Long employeeId) {
             this.employeeId = employeeId;
         }
 
@@ -61,8 +73,8 @@ public class RegistrationController {
     }
 
 
-    @GetMapping("/success")
-    public String showSuccessPage() {
-        return "success";
-    }
+//    @GetMapping("/login")
+//    public String showSuccessPage() {
+//        return "login";
+//    }
 }
