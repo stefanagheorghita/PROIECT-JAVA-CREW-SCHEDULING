@@ -114,7 +114,7 @@ END;
 
 
 /
-declare
+/*declare
     type varr is varray(4) of varchar2(50);
     type varr_1 is varray(4) of integer;
     type varr_2 is varray(4) of integer;
@@ -153,9 +153,134 @@ begin
     end loop;
     dbms_sql.close_cursor(v_cursor);
     dbms_sql.close_cursor(v_cursor2);
-end;
+end;*/
+
+
+/
+-------------------------------------
+CREATE OR REPLACE PACKAGE my_package AS
+    TYPE varr IS VARRAY(4) OF VARCHAR2(50);
+    TYPE varr_1 IS VARRAY(4) OF INTEGER;
+    TYPE varr_2 IS VARRAY(4) OF INTEGER;
+
+    crew_insertion_error EXCEPTION;
+    table_creation_error EXCEPTION;
+
+    PRAGMA EXCEPTION_INIT(crew_insertion_error, -20001);
+    PRAGMA EXCEPTION_INIT(table_creation_error, -20002);
+
+    PROCEDURE insert_crew_and_tables;
+END my_package;
 /
 
+CREATE OR REPLACE PACKAGE BODY my_package AS
+    v_crew_list varr := varr('Pilot', 'Copilot', 'Flight Engineer', 'Flight Attendant');
+    v_hours varr_1 := varr_1(75, 75, 40, 85);
+    v_ids varr_2 := varr_2(1, 2, 3, 4);
+
+    PROCEDURE insert_crew_and_tables IS
+        v_nume VARCHAR2(50);
+        v_id INTEGER;
+        v_hour INTEGER;
+        v_statement VARCHAR2(1000);
+        v_cursor1 INTEGER;
+        v_cursor2 INTEGER;
+        v_result1 INTEGER;
+        v_result2 INTEGER;
+    BEGIN
+        v_cursor1 := dbms_sql.open_cursor();
+        v_cursor2 := dbms_sql.open_cursor();
+
+        FOR v_i IN 1..4 LOOP
+            v_nume := v_crew_list(v_i);
+            v_hour := v_hours(v_i);
+            v_id := v_ids(v_i);
+
+            -- Insert into crew table
+            v_statement := 'INSERT INTO crew (id, name, max_hours) VALUES (:1, :2, :3)';
+            dbms_output.put_line(v_statement);
+            dbms_sql.parse(v_cursor1, v_statement, dbms_sql.native);
+            dbms_sql.bind_variable(v_cursor1, ':1', v_id);
+            dbms_sql.bind_variable(v_cursor1, ':2', v_nume);
+            dbms_sql.bind_variable(v_cursor1, ':3', v_hour);
+
+            v_result1 := dbms_sql.execute(v_cursor1);
+
+            -- Check for errors and raise custom exception if necessary
+            IF dbms_sql.last_row_count <> 1 THEN
+                RAISE crew_insertion_error;
+            END IF;
+
+            -- Create table for each crew member
+            v_nume := REPLACE(TRIM(v_nume), ' ', '_');
+            v_statement := 'CREATE TABLE '|| v_nume || ' (id INT NOT NULL, ' ||
+                            'employee_id INT NOT NULL, ' ||
+                            'CONSTRAINT fk_crew_employee_id'||v_i || ' FOREIGN KEY (employee_id) REFERENCES employees(id) )';
+            dbms_output.put_line(v_statement);
+            dbms_sql.parse(v_cursor2, v_statement, dbms_sql.native);
+
+            v_result2 := dbms_sql.execute(v_cursor2);
+
+            -- Check for errors and raise custom exception if necessary
+            IF v_result2 <> 0 THEN
+                RAISE table_creation_error;
+            END IF;
+        END LOOP;
+
+        dbms_sql.close_cursor(v_cursor1);
+        dbms_sql.close_cursor(v_cursor2);
+    /*EXCEPTION
+        WHEN crew_insertion_error THEN
+            dbms_output.put_line('Error inserting crew member');
+            -- Handle the exception as desired
+
+        WHEN table_creation_error THEN
+            dbms_output.put_line('Error creating table');
+            -- Handle the exception as desired*/
+    END insert_crew_and_tables;
+    -- Implement additional procedures, functions, or declarations as needed
+END my_package;
+/
+BEGIN
+    BEGIN
+        my_package.insert_crew_and_tables;
+    EXCEPTION
+        WHEN my_package.crew_insertion_error THEN
+            dbms_output.put_line('Error inserting crew member');
+            -- Handle the crew insertion error as desired
+
+        WHEN my_package.table_creation_error THEN
+            dbms_output.put_line('Error creating table');
+            -- Handle the table creation error as desired
+
+        WHEN OTHERS THEN
+            dbms_output.put_line('An error occurred');
+            -- Handle other exceptions if necessary
+    END;
+END;
+/
+
+
+-------------------------------------
+
+/*
+drop table flight_attendant;
+/
+drop table flight_engineer;
+/
+drop table pilot;
+/
+drop table copilot;
+/
+delete from crew where id in (1, 2, 3, 4);
+/
+select * from crew;
+/
+select * from pilot;
+*/
+
+
+/
 CREATE OR REPLACE TRIGGER delete_employees_trigger
 BEFORE DELETE ON crew
 FOR EACH ROW
@@ -194,4 +319,3 @@ END;
 
 
 CREATE SEQUENCE SEQUENCE1 START WITH 1 INCREMENT BY 1;
-
