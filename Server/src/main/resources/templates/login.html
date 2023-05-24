@@ -308,6 +308,12 @@
         xhr.onreadystatechange = function() {
           if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             console.log(xhr.responseText);
+            if (xhr.responseText === "success") {
+              window.location.href = "/home";
+            } else {
+              window.location.href = "/login";
+              alert("Invalid credentials");
+            }
           }
         };
         xhr.send(JSON.stringify(formData));

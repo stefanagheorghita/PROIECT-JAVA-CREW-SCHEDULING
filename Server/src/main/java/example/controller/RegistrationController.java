@@ -2,6 +2,7 @@ package example.controller;
 
 import example.model.entity.Employee;
 import example.model.entity.User;
+import example.repository.UserRepository;
 import example.service.EmployeeService;
 import example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class RegistrationController {
 
     @Autowired
     private EmployeeService employeeService;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping
     public String hello() {
@@ -32,7 +35,7 @@ public class RegistrationController {
     @PostMapping("/register")
     @ResponseBody
     public ResponseEntity<Object> register(@RequestBody RegisterForm registerForm) {
-        Long employeeId = registerForm.getEmployeeId();
+        int employeeId = registerForm.getEmployeeId();
         String password = registerForm.getPassword();
         System.out.println("Employee ID: " + employeeId);
         System.out.println("Password: " + password);
@@ -45,21 +48,21 @@ public class RegistrationController {
         if(user != null) {
             return ResponseEntity.ok("User already exists");
         }
-
+        userService.registerUser(employeeId, password);
         return ResponseEntity.ok("Account created");
     }
 
     public static class RegisterForm {
-        private Long employeeId;
+        private int employeeId;
         private String password;
         public RegisterForm() {
         }
 
-        public Long getEmployeeId() {
+        public int getEmployeeId() {
             return employeeId;
         }
 
-        public void setEmployeeId(Long employeeId) {
+        public void setEmployeeId(int employeeId) {
             this.employeeId = employeeId;
         }
 

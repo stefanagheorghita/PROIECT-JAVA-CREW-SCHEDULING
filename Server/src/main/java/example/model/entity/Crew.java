@@ -28,10 +28,6 @@ public class Crew {
             nullable = false)
     private Integer maxHours;
 
-    @Column(name = "created_at")
-    private Timestamp createdAt;
 
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
 
 }

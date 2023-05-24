@@ -12,10 +12,10 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "employees")
-public class Employee extends Person {
+public class Employee  {
     @GeneratedValue
     @Id
-    private Long id;
+    private int id;
     @Column(name = "first_name",
             nullable = false)
     private String firstName;

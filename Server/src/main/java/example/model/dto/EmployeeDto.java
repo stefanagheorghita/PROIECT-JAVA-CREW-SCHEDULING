@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Builder
 public class EmployeeDto {
 
-    private Long id;
+    private int id;
 
     private String firstName;
 

@@ -266,3 +266,9 @@ exception
    when others then
       DBMS_OUTPUT.PUT_LINE('Esec la import din cauza: ' || SQLERRM);
 end;
+
+
+select * from users;
+
+
+CREATE SEQUENCE SEQUENCE1 START WITH 1 INCREMENT BY 1;
