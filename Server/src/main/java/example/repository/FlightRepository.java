@@ -5,15 +5,16 @@ import example.model.entity.Flight;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface FlightRepository extends JpaRepository<Flight, Long> {
-    @Query(value = "SELECT * FROM flights", nativeQuery = true)
-    List<Flight> findAll();
+//    @Query(value = "SELECT id FROM flights", nativeQuery = true)
+//    List<Flight> findAll();
 
     @Query(value = "SELECT * FROM flights where id=:id", nativeQuery = true)
-    Flight findFlightById(Long id);
+    Flight findFlightById(@Param("id")int id);
 
     @Query(value = "SELECT * FROM flights where destination=:destination", nativeQuery = true)
     List<Flight> findFlightByDestination(@Param("destination")String destination);

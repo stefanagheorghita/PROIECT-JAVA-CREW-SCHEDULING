@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 public class City {
     @GeneratedValue
     @Id
-    private Long id;
+    private int id;
 
     @Column(name = "name",
             nullable = false)

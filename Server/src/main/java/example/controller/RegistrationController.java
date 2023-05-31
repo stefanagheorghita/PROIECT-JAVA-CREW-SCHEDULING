@@ -37,8 +37,6 @@ public class RegistrationController {
     public ResponseEntity<Object> register(@RequestBody RegisterForm registerForm) {
         int employeeId = registerForm.getEmployeeId();
         String password = registerForm.getPassword();
-        System.out.println("Employee ID: " + employeeId);
-        System.out.println("Password: " + password);
         Employee employee = employeeService.findEmployeeById(employeeId);
 
         if(employee == null) {
