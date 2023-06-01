@@ -17,8 +17,8 @@ import java.sql.Timestamp;
 @Table(name = "countries")
 public class Country {
 
-    @GeneratedValue
     @Id
+    @GeneratedValue
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -29,4 +29,9 @@ public class Country {
 
     @Column(name = "updated_at")
     private Timestamp updatedAt;
+
+    public Country(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

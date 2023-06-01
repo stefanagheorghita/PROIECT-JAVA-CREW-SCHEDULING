@@ -1,14 +1,14 @@
 
 CREATE TABLE countries (
 id INT NOT NULL PRIMARY KEY,
-name varchar2(50) NOT NULL UNIQUE,
+name varchar2(255) NOT NULL UNIQUE,
 created_at DATE,
 updated_at DATE
 )
 /
 CREATE TABLE CITIES (
 id INT NOT NULL PRIMARY KEY,
-name varchar2(50) NOT NULL,
+name varchar2(255) NOT NULL,
 country_id INT NOT NULL,
 created_at DATE,
 updated_at DATE,
@@ -44,6 +44,8 @@ create table employees (
     constraint fk_employee_crew_id foreign key (crew_id) references crew(id)
 )
 /
+drop table flights cascade constraints;
+/
 create table flights (
     id int not null primary key,
     destination varchar2(100),
@@ -64,6 +66,14 @@ create table users
     employee_id integer       not null,
     constraint fk_employee foreign key (employee_id) references employees (id)
 )
+
+/
+create table passengers (
+    id int not null primary key,
+    flight_id integer not null,
+    passengers_number integer not null,
+    constraint fk_flight foreign key (flight_id) references flights (id)
+)
 /
 
 CREATE TYPE crew_assignment_type AS OBJECT (
@@ -74,6 +84,9 @@ CREATE TYPE crew_assignment_type AS OBJECT (
 CREATE TYPE crew_assignment_table_type AS TABLE OF crew_assignment_type;
 
 /
+drop table flight_assignments;
+/
+
 CREATE TABLE flight_assignments (
     id INT NOT NULL PRIMARY KEY,
     flight_id INT NOT NULL,
@@ -319,3 +332,42 @@ END;
 
 
 CREATE SEQUENCE SEQUENCE1 START WITH 1 INCREMENT BY 1;
+
+CREATE SEQUENCE SEQUENCE2 START WITH 966 INCREMENT BY 1;
+DROP SEQUENCE SEQUENCE2;
+
+SELECT sequence_name
+FROM user_sequences
+WHERE sequence_name = 'SEQUENCE2';
+
+SELECT grantee, privilege FROM all_tab_privs WHERE table_name = 'SEQUENCE2';
+
+CREATE SEQUENCE SEQUENCE2 START WITH 966 INCREMENT BY 1 NOCACHE;
+
+SELECT sequence_name, min_value
+FROM user_sequences
+WHERE sequence_name = 'SEQUENCE2';
+
+SELECT SEQUENCE2.NEXTVAL FROM DUAL;
+SELECT SEQUENCE2.CURRVAL FROM DUAL;
+
+
+
+
+
+
+select * from countries where name like 'Italy';
+select count(*) from CITIES where id > 965;
+select * from CITIES where country_id = 179;
+select * from CITIES where name like '%New York%';
+delete from countries where id in (1, 2, 3, 4, 5, 6, 7);
+drop table countries cascade constraints;
+drop table CITIES cascade constraints;
+alter table countries drop column name;
+alter table countries add name varchar2(255);
+alter table cities drop column name;
+alter table cities add name varchar2(255);
+select * from CITIES;
+select count(*) from CITIES;
+delete from CITIES where id > 965;
+select * from CITIES order by id asc;
