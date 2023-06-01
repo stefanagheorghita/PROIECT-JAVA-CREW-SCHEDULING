@@ -25,6 +25,9 @@ public class EmployeeService {
     }
 
     public Employee findEmployeeById(int id) {
+        if(employeeRepository.findById(id).isEmpty()) {
+            return null;
+        }
       return employeeRepository.findById(id).get();
     }
 

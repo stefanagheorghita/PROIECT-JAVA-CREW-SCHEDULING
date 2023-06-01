@@ -34,12 +34,18 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        int id = Integer.parseInt(username);
-        User user = userRepository.findByEmployeeId(id);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+        System.out.println("loadUserByUsername");
+        System.out.println(username);
+        try {
+            int id = Integer.parseInt(username);
+            User user = userRepository.findByEmployeeId(id);
+            if (user == null) {
+                throw new UsernameNotFoundException("User not found");
+            }
+            return user;
+        } catch (NumberFormatException e) {
+            throw new UsernameNotFoundException("Invalid username format");
         }
-        return user;
     }
 
     public User findUserByEmployeeId(int id) {

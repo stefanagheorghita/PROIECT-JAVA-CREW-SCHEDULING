@@ -28,11 +28,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests().anyRequest().permitAll();
 
 //        http.authorizeHttpRequests()
-//                .antMatchers(HttpMethod.GET, "/", "/login", "/getOwnId","/register").permitAll()
+//                .antMatchers(HttpMethod.GET, "/", "/login","/register").permitAll()
 //                .antMatchers(HttpMethod.POST, "/register").permitAll()
 //                .anyRequest().authenticated();
 //        http.formLogin()
-//                .loginPage("http://localhost:3000/login")
+//                .loginPage("http://localhost:8084/login")
 //                .loginProcessingUrl("/login");
 //        http.httpBasic();
 //        http.cors().and().csrf().disable();
