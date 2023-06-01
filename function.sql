@@ -148,3 +148,7 @@ END;
 /
 
 
+insert into airplanes values (1,200);
+insert into airplanes values (2,100);
+insert into airplanes values (3,150);
+
