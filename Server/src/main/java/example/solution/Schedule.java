@@ -14,7 +14,6 @@ public class Schedule {
         unallocatedFlights= flights;
     }
 
-
     public List<Flight> getUnallocatedFlights() {
         return unallocatedFlights;
     }
