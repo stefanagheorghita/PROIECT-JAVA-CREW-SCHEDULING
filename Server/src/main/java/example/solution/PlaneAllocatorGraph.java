@@ -32,7 +32,7 @@ public class PlaneAllocatorGraph {
 
     private Set<PlaneLocation> planeLocations = new HashSet<>();
 
-    Graph<String, DefaultWeightedEdge> graph = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
+    Graph<Node, DefaultWeightedEdge> graph = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
 
     public HashMap<Flight, Airplane> allocatePlanes() {
         allocateWeights();
@@ -75,7 +75,6 @@ public class PlaneAllocatorGraph {
         List<Airplane> airplanes = airplaneRepository.findAll();
         List<Flight> flights = flightRepository.findAll();
         allocatePlanes();
-        Graph<Node, DefaultWeightedEdge> graph = new DefaultDirectedWeightedGraph<>(DefaultWeightedEdge.class);
         for (Airplane airplane : airplanes) {
             graph.addVertex(airplane);
         }
@@ -131,12 +130,31 @@ public class PlaneAllocatorGraph {
             }
         }
 
-        for (Map.Entry<Flight, Airplane> entry : assignments.entrySet()) {
+        TreeMap<Flight, Airplane> sortedMap = new TreeMap<>(new Comparator<Flight>() {
+            @Override
+            public int compare(Flight flight1, Flight flight2) {
+                Airplane airplane1 = assignments.get(flight1);
+                Airplane airplane2 = assignments.get(flight2);
+
+                return Integer.compare(airplane1.getId(), airplane2.getId());
+            }
+        });
+        sortedMap.putAll(assignments);
+        for (Map.Entry<Flight, Airplane> entry : sortedMap.entrySet()) {
             Flight flight = entry.getKey();
             Airplane airplane = entry.getValue();
-            System.out.println(flight + " assigned to " + airplane);
-        }
 
+            System.out.println("Flight: " + flight.getId() + ", Airplane: " + airplane.getId());
+            System.out.println("Departure: " + flight.getDepartureCity().getName() + " " + flight.getDepartureTime());
+            System.out.println("Arrival: " + flight.getArrivalCity().getName() + " "+flight.getArrivalTime());
+            System.out.println("Weight: " + calculateWeight(flight, airplane));
+            System.out.println("Capacity: " + airplane.getCapacity());
+            System.out.println("Passengers aprox: " + flight.getAproxPassengers());
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println("Total flights: "+flights.size());
+        System.out.println("Flights allocated: "+sortedMap.size());
 
     }
 

@@ -354,15 +354,16 @@ BEGIN
     WHERE departure_city_id = :OLD.id OR arrival_city_id = :OLD.id;
 END;
 /
-
-
+select * from flights;
+select * from cities;
 insert into countries(id,name) values (1,'lalal');
  insert into cities (id,name,country_id) values (1,'d',1);
  insert into cities (id,name,country_id) values (2,'dii',1);
  insert into cities (id,name,country_id) values (3,'od',1);
  insert into cities (id,name,country_id) values (4,'fv',1);
 CREATE SEQUENCE SEQUENCE1 START WITH 1 INCREMENT BY 1;
-
+CREATE SEQUENCE SEQUENCE5 START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SEQUENCE6 START WITH 1 INCREMENT BY 1;
 delete from flights where id=1;
 INSERT INTO flights (id, departure_city_id, arrival_city_id, departure_day, departure_hour, arrival_hour,aprox_passengers)
 VALUES (1, 1, 2, 'Tuesday', '15:30','16:30',100);
@@ -379,11 +380,12 @@ VALUES (4, 1, 2, 'Monday', '14:30','15:20',80);
 
 select * from airplanes;
 select * from flights;
-
-
+select * from countries;
+select * from cities;
+delete from countries where id=1;
 CREATE SEQUENCE SEQUENCE2 START WITH 966 INCREMENT BY 1;
 DROP SEQUENCE SEQUENCE2;
-
+select * from cities;
 SELECT sequence_name
 FROM user_sequences
 WHERE sequence_name = 'SEQUENCE2';
@@ -399,10 +401,10 @@ WHERE sequence_name = 'SEQUENCE2';
 SELECT SEQUENCE2.NEXTVAL FROM DUAL;
 SELECT SEQUENCE2.CURRVAL FROM DUAL;
 
+select * from airplanes;
 
-
-
-
+select * from flights;
+delete from airplanes where id=1;
 
 select * from countries where name like 'Italy';
 select count(*) from CITIES where id > 965;

@@ -1,5 +1,6 @@
 package example.model.dto;
 
+import example.model.entity.Airplane;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class FlightDto {
     private String departureHour;
 
     private String arrivalHour;
-    private Integer airplaneId;
+    private Airplane airplane;
     private Integer employeesNo;
 
 

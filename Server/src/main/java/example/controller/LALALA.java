@@ -1,12 +1,12 @@
 package example.controller;
 
+import example.data.AirplaneGeneratorLargeInstance;
+import example.data.FlightGeneratorLargeInstance;
 import example.solution.PlaneAllocator;
 import example.solution.PlaneAllocatorGraph;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
 
 @RestController
 public class LALALA {
@@ -15,21 +15,64 @@ public class LALALA {
     private PlaneAllocator planeAllocator;
 
     @Autowired
+    private FlightGeneratorLargeInstance flightGeneratorLargeInstance;
+    @Autowired
     private PlaneAllocatorGraph planeAllocator2;
+
+    @Autowired
+    private AirplaneGeneratorLargeInstance airplaneGeneratorLargeInstance;
     @PostMapping("/lalala")
     public String lalala() {
+        System.gc();
+        Runtime runtime = Runtime.getRuntime();
+        long usedMemoryBefore =
+                runtime.totalMemory() - runtime.freeMemory();
+        long initialTime = System.currentTimeMillis();
+
         System.out.println("lalala");
-        System.out.println("alocare avioane");
-        System.out.println(planeAllocator.allocatePlanes());
+        planeAllocator.allocatePlanes();
+        long runningTime = System.currentTimeMillis() - initialTime;
+        long usedMemoryAfter =
+                runtime.totalMemory() - runtime.freeMemory();
+        long memoryIncrease = usedMemoryAfter - usedMemoryBefore;
+        System.out.println("Running time: " + runningTime + " ms");
+        System.out.println("Memory increase: " + memoryIncrease + " bytes");
         return "lalala";
     }
 
     @PostMapping("/lilili")
     public String lilili() {
+        System.gc();
+        Runtime runtime = Runtime.getRuntime();
+        long usedMemoryBefore =
+                runtime.totalMemory() - runtime.freeMemory();
+        long initialTime = System.currentTimeMillis();
+
         System.out.println("lilili");
-        System.out.println("alocare avioane");
         planeAllocator2.assignments();
+        long runningTime = System.currentTimeMillis() - initialTime;
+        long usedMemoryAfter =
+                runtime.totalMemory() - runtime.freeMemory();
+        long memoryIncrease = usedMemoryAfter - usedMemoryBefore;
+        System.out.println("Running time: " + runningTime + " ms");
+        System.out.println("Memory increase: " + memoryIncrease + " bytes");
         return "lilili";
+    }
+
+    @PostMapping("/lululu")
+    public String lululu() {
+        System.out.println("lululu");
+        System.out.println("alocare avioane");
+        flightGeneratorLargeInstance.main(null);
+        return "lululu";
+    }
+
+    @PostMapping("/lelele")
+    public String lelele() {
+        System.out.println("lelele");
+        System.out.println("alocare avioane");
+        airplaneGeneratorLargeInstance.main();
+        return "lelele";
     }
 
 

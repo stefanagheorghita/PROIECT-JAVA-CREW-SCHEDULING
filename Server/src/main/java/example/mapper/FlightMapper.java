@@ -15,7 +15,7 @@ public class FlightMapper {
                 .arrivalTime(flight.getArrivalTime())
                 .departureTime(flight.getDepartureTime())
                 .departureDay(flight.getDepartureDay())
-                .airplaneId(flight.getAirplaneId())
+                .airplane(flight.getAirplane())
                 .employeesNo(flight.getEmployeesNo())
                 .build();
     }
@@ -26,7 +26,7 @@ public class FlightMapper {
                 .departureCity(CityMapper.fromDto(flightDto.getDepartureCityDto()))
                 .arrivalCity(CityMapper.fromDto(flightDto.getArrivalCityDto()))
                 .arrivalTime(flightDto.getArrivalTime())
-                .airplaneId(flightDto.getAirplaneId())
+                .airplane(flightDto.getAirplane())
                 .employeesNo(flightDto.getEmployeesNo())
                 .build();
     }

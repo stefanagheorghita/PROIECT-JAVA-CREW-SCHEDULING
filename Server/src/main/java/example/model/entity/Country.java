@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Data
@@ -15,7 +16,7 @@ import java.sql.Timestamp;
 @Builder
 @Entity
 @Table(name = "countries")
-public class Country {
+public class Country implements Serializable {
 
     @Id
     @GeneratedValue
