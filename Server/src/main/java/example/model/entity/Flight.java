@@ -77,6 +77,12 @@ public class Flight implements Comparable<Flight>,Node {
     @Column(name="aprox_passengers")
     private Integer aproxPassengers;
 
+    @Column(name = "pilot_id")
+    private Integer pilotId;
+
+    @Transient
+    private Integer copilotId;
+
 
     @Override
     public int compareTo(Flight o) {

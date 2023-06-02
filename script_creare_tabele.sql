@@ -94,6 +94,38 @@ CREATE TABLE flight_assignments (
     CONSTRAINT fk_flight_assig_flight_id FOREIGN KEY (flight_id) REFERENCES flights(id)
 ) NESTED TABLE crew_assignments STORE AS lista;
 /
+drop table pilot;
+/
+CREATE TABLE Pilot (
+    id INT PRIMARY KEY,
+    employeeId INT,
+    assignments INT
+);
+/
+drop table copilot cascade constraints;
+/
+CREATE TABLE Copilot (
+    id INT PRIMARY KEY,
+    employeeId INT,
+    assignments INT
+);
+/
+drop table flight_attendant cascade constraints;
+/
+CREATE TABLE flight_attendant (
+    id INT PRIMARY KEY,
+    employeeId INT,
+    assignments INT
+);
+/
+drop table flight_engineer cascade constraints;
+/
+CREATE TABLE flight_engineer (
+    id INT PRIMARY KEY,
+    employeeId INT,
+    assignments INT
+);
+/
 
 CREATE OR REPLACE TRIGGER trg_flight_assignments_fk
 BEFORE INSERT OR UPDATE ON flight_assignments
@@ -356,18 +388,31 @@ SELECT SEQUENCE2.CURRVAL FROM DUAL;
 
 
 
-select * from countries where name like 'Italy';
-select count(*) from CITIES where id > 965;
-select * from CITIES where country_id = 179;
-select * from CITIES where name like '%New York%';
-delete from countries where id in (1, 2, 3, 4, 5, 6, 7);
-drop table countries cascade constraints;
-drop table CITIES cascade constraints;
-alter table countries drop column name;
-alter table countries add name varchar2(255);
-alter table cities drop column name;
-alter table cities add name varchar2(255);
-select * from CITIES;
-select count(*) from CITIES;
-delete from CITIES where id > 965;
-select * from CITIES order by id asc;
+-- select * from countries where name like 'Italy';
+-- select count(*) from CITIES where id > 965;
+-- select * from CITIES where country_id = 179;
+-- select * from CITIES where name like '%New York%';
+-- delete from countries where id in (1, 2, 3, 4, 5, 6, 7);
+-- drop table countries cascade constraints;
+-- drop table CITIES cascade constraints;
+-- alter table countries drop column name;
+-- alter table countries add name varchar2(255);
+-- alter table cities drop column name;
+-- alter table cities add name varchar2(255);
+-- select * from CITIES;
+-- select count(*) from CITIES;
+-- delete from CITIES where id > 965;
+-- select * from CITIES order by id asc;
+-- select * from PILOT;
+select count(*) from pilot;
+select count(*) from copilot;
+select count(*) from flight_engineer;
+select count(*) from flight_attendant;
+select * from flight_attendant;
+delete from flight_attendant where id > = 1;
+select * from employees where id = 305;
+
+ALTER TABLE flights
+ADD pilot_id int;
+
+

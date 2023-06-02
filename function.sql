@@ -147,4 +147,112 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE PROCEDURE InsertPilotFromEmployees
+IS
+BEGIN
+
+  INSERT INTO Pilot (id, employeeId)
+  SELECT rownum, id
+  FROM employees
+  WHERE crew_id = 1;
+
+
+  COMMIT;
+
+
+  DBMS_OUTPUT.PUT_LINE('Insertion into Pilot table completed successfully.');
+EXCEPTION
+  WHEN OTHERS THEN
+
+    DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+BEGIN
+  InsertPilotFromEmployees;
+END;
+
+/
+
+CREATE OR REPLACE PROCEDURE InsertCopilotFromEmployees
+IS
+BEGIN
+
+  INSERT INTO Copilot (id, employeeId)
+  SELECT rownum, id
+  FROM employees
+  WHERE crew_id = 2;
+
+
+  COMMIT;
+
+
+  DBMS_OUTPUT.PUT_LINE('Insertion into Copilot table completed successfully.');
+EXCEPTION
+  WHEN OTHERS THEN
+
+    DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+BEGIN
+  InsertCopilotFromEmployees;
+END;
+
+/
+
+CREATE OR REPLACE PROCEDURE InsertEngineerFromEmployees
+IS
+BEGIN
+
+  INSERT INTO flight_engineer (id, employeeId)
+  SELECT rownum, id
+  FROM employees
+  WHERE crew_id = 3;
+
+
+  COMMIT;
+
+
+  DBMS_OUTPUT.PUT_LINE('Insertion into Flight Engineer table completed successfully.');
+EXCEPTION
+  WHEN OTHERS THEN
+
+    DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+BEGIN
+  InsertEngineerFromEmployees;
+END;
+
+/
+
+CREATE OR REPLACE PROCEDURE InsertAttendantFromEmployees
+IS
+BEGIN
+
+  INSERT INTO flight_attendant (id, employeeId)
+  SELECT rownum, id
+  FROM employees
+  WHERE crew_id = 4;
+
+
+  COMMIT;
+
+
+  DBMS_OUTPUT.PUT_LINE('Insertion into Flight Attendant table completed successfully.');
+EXCEPTION
+  WHEN OTHERS THEN
+
+    DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+BEGIN
+  InsertAttendantFromEmployees;
+END;
+
+/
+
 

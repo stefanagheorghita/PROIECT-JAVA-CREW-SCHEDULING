@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Long> {
-//    @Query(value = "SELECT id FROM flights", nativeQuery = true)
-//    List<Flight> findAll();
+    @Query(value = "SELECT id FROM flights", nativeQuery = true)
+    List<Flight> findAll();
 
     @Query(value = "SELECT * FROM flights where id=:id", nativeQuery = true)
     Flight findFlightById(@Param("id")int id);

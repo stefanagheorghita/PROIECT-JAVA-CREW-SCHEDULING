@@ -36,6 +36,8 @@ public class City {
     private Timestamp updatedAt;
 
 
-
-
+    public City(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
