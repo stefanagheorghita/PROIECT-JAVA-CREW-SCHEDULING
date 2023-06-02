@@ -25,6 +25,13 @@ create table airports (
 )
 /
 
+create table airplanes (
+    id int not null primary key,
+    num_passengers int not null
+)
+/
+
+
 create table crew (
     id int not null primary key,
     name varchar2(50) unique,
@@ -44,20 +51,38 @@ create table employees (
     constraint fk_employee_crew_id foreign key (crew_id) references crew(id)
 )
 /
-drop table flights cascade constraints;
+
+drop table flights;
+CREATE TABLE flights (
+    id INT NOT NULL PRIMARY KEY,
+    departure_city_id INTEGER NOT NULL,
+    arrival_city_id INTEGER NOT NULL,
+    departure_day VARCHAR2(20),
+    departure_hour VARCHAR2(5),
+    arrival_hour VARCHAR2(5),
+    airplane_id INTEGER,
+    employees_no INTEGER,
+    aprox_passengers INTEGER,
+    CONSTRAINT fk_departure_city_id FOREIGN KEY (departure_city_id) REFERENCES cities(id),
+    CONSTRAINT fk_arrival_city_id FOREIGN KEY (arrival_city_id) REFERENCES cities(id)
+);
+
+
+
 /
-create table flights (
-    id int not null primary key,
-    destination varchar2(100),
-    departure_city_id integer not null,
-    arrival_city_id integer not null,
-    departure_date date,
-    arrival_date date,
-    airplane_id integer not null,
-    employees_no integer not null,
-    constraint fk_departure_city_id foreign key (departure_city_id) references cities(id),
-    constraint fk_arrival_city_id foreign key (arrival_city_id) references cities(id)
-)
+-- create table flights (
+--     id int not null primary key,
+--     destination varchar2(100),
+--     departure_city_id integer not null,
+--     arrival_city_id integer not null,
+--     departure_date date,
+--     arrival_date date,
+--     airplane_id integer not null,
+--     employees_no integer not null,
+--     constraint fk_departure_city_id foreign key (departure_city_id) references cities(id),
+--     constraint fk_arrival_city_id foreign key (arrival_city_id) references cities(id)
+-- )
+
 /
 create table users
 (
@@ -361,13 +386,38 @@ BEGIN
     WHERE departure_city_id = :OLD.id OR arrival_city_id = :OLD.id;
 END;
 /
-
-
+select * from flights;
+select * from cities;
+insert into countries(id,name) values (1,'lalal');
+ insert into cities (id,name,country_id) values (1,'d',1);
+ insert into cities (id,name,country_id) values (2,'dii',1);
+ insert into cities (id,name,country_id) values (3,'od',1);
+ insert into cities (id,name,country_id) values (4,'fv',1);
 CREATE SEQUENCE SEQUENCE1 START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SEQUENCE5 START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SEQUENCE6 START WITH 1 INCREMENT BY 1;
+delete from flights where id=1;
+INSERT INTO flights (id, departure_city_id, arrival_city_id, departure_day, departure_hour, arrival_hour,aprox_passengers)
+VALUES (1, 1, 2, 'Tuesday', '15:30','16:30',100);
 
+INSERT INTO flights (id, departure_city_id, arrival_city_id, departure_day, departure_hour, arrival_hour,aprox_passengers)
+VALUES (2, 1, 3, 'Tuesday', '15:30','16:30',120);
+
+
+INSERT INTO flights (id, departure_city_id, arrival_city_id, departure_day, departure_hour, arrival_hour,aprox_passengers)
+VALUES (3, 2, 4, 'Monday', '15:30','16:30',120);
+
+INSERT INTO flights (id, departure_city_id, arrival_city_id, departure_day, departure_hour, arrival_hour,aprox_passengers)
+VALUES (4, 1, 2, 'Monday', '14:30','15:20',80);
+
+select * from airplanes;
+select * from flights;
+select * from countries;
+select * from cities;
+delete from countries where id=1;
 CREATE SEQUENCE SEQUENCE2 START WITH 966 INCREMENT BY 1;
 DROP SEQUENCE SEQUENCE2;
-
+select * from cities;
 SELECT sequence_name
 FROM user_sequences
 WHERE sequence_name = 'SEQUENCE2';
@@ -383,10 +433,10 @@ WHERE sequence_name = 'SEQUENCE2';
 SELECT SEQUENCE2.NEXTVAL FROM DUAL;
 SELECT SEQUENCE2.CURRVAL FROM DUAL;
 
+select * from airplanes;
 
-
-
-
+select * from flights;
+delete from airplanes where id=1;
 
 -- select * from countries where name like 'Italy';
 -- select count(*) from CITIES where id > 965;
@@ -414,5 +464,7 @@ select * from employees where id = 305;
 
 ALTER TABLE flights
 ADD pilot_id int;
+
+
 
 

@@ -8,6 +8,9 @@ import example.repository.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.*;
@@ -26,8 +29,6 @@ public class PlaneAllocator {
         List<Flight> flights=flightRepository.findAll();
         List<Airplane> airplanes = airplaneRepository.findAll();
         Flight flight1 = flightRepository.findFlightById(1);
-        System.out.println("airplanes: " + airplanes);
-        System.out.println("flights: " + flights);
         HashMap<Flight, Airplane> flightAirplaneHashMap = new HashMap<>();
         Collections.sort(flights);
         Collections.sort(airplanes);
@@ -51,16 +52,41 @@ public class PlaneAllocator {
                             continue;
                         planeLocations.add(new PlaneLocation(airplane.getId(), arrivalCityId, dayOfWeek, arrivalTime));
                         flightAirplaneHashMap.put(flight, airplane);
+                        flight.setAirplane(airplane);
                         break;
                     }
                 }
             }
         }
-        System.out.println("flightAirplaneHashMap: " + flightAirplaneHashMap);
+        System.out.println("flightAirplaneHashMap: ");
+        for (Map.Entry<Flight, Airplane> entry : flightAirplaneHashMap.entrySet()) {
+            Flight flight = entry.getKey();
+            Airplane airplane = entry.getValue();
+
+            System.out.println("Flight: " + flight.getId() + ", Airplane: " + airplane.getId());
+            System.out.println("Departure: " + flight.getDepartureCity().getName() + " " + flight.getDepartureTime());
+            System.out.println("Arrival: " + flight.getArrivalCity().getName() + " "+flight.getArrivalTime());
+            System.out.println("Capacity: " + airplane.getCapacity());
+            System.out.println("Passengers aprox: " + flight.getAproxPassengers());
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println("Total flights: "+flights.size());
+        System.out.println("Flights allocated: "+flightAirplaneHashMap.size());
+        try {
+            FileOutputStream fileOut = new FileOutputStream("flightAirplaneData.ser");
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(flightAirplaneHashMap);
+            objectOut.close();
+            fileOut.close();
+            System.out.println("Data saved successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return flightAirplaneHashMap;
     }
 
-    private boolean verifyAvailability(Airplane airplane, DayOfWeek dayOfWeek, LocalTime departureTime, LocalTime arrivalTime, HashSet<PlaneLocation> planeLocations) {
+    public boolean verifyAvailability(Airplane airplane, DayOfWeek dayOfWeek, LocalTime departureTime, LocalTime arrivalTime, HashSet<PlaneLocation> planeLocations) {
         if(airplane.getFlights()==null)
             return true;
         for (Flight flight : airplane.getFlights())
@@ -69,7 +95,7 @@ public class PlaneAllocator {
         return true;
     }
 
-    private List<Airplane> findAvailablePlane(HashSet<PlaneLocation> planeLocations, int departureCityId, DayOfWeek dayOfWeek, LocalTime departureTime, LocalTime arrivalTime, int flightCapacity) {
+    public List<Airplane> findAvailablePlane(HashSet<PlaneLocation> planeLocations, int departureCityId, DayOfWeek dayOfWeek, LocalTime departureTime, LocalTime arrivalTime, int flightCapacity) {
         List<Airplane> availablePlanes = new ArrayList<>();
         for (PlaneLocation planeLocation : planeLocations) {
             if (planeLocation.getCityId() == departureCityId && planeLocation.getDay() == dayOfWeek && planeLocation.getTime().compareTo(departureTime) <= 0) {
@@ -79,7 +105,15 @@ public class PlaneAllocator {
                 }
             }
         }
-        return null;
+        return availablePlanes;
+    }
+
+    public void setAirplaneRepository(AirplaneRepository airplaneRepository) {
+        this.airplaneRepository = airplaneRepository;
+    }
+
+    public void setFlightRepository(FlightRepository flightRepository) {
+        this.flightRepository = flightRepository;
     }
 
 }

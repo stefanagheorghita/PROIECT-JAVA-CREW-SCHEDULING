@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Data
@@ -14,7 +15,7 @@ import java.sql.Timestamp;
 @Builder
 @Entity
 @Table(name = "cities")
-public class City {
+public class City implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQUENCE2")
     @SequenceGenerator(name="SEQUENCE2", sequenceName="SEQUENCE2", allocationSize=1)
@@ -35,9 +36,13 @@ public class City {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-
     public City(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+    public City(int id, String name, Country country) {
+        this.id = id;
+        this.name = name;
+        this.country = country;
     }
 }

@@ -1,5 +1,6 @@
 package example.model.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,10 +17,11 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "airplanes")
-public class Airplane implements Comparable<Airplane>, Node {
+public class Airplane implements Comparable<Airplane>, Node, Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE6")
+    @SequenceGenerator(name = "SEQUENCE6", sequenceName = "SEQUENCE6", allocationSize = 1)
     private int id;
 
 
@@ -34,5 +36,10 @@ public class Airplane implements Comparable<Airplane>, Node {
     @Override
     public int compareTo(Airplane o) {
         return this.getCapacity().compareTo(o.getCapacity());
+    }
+
+    public Airplane(int id, Integer capacity) {
+        this.id = id;
+        this.capacity = capacity;
     }
 }
