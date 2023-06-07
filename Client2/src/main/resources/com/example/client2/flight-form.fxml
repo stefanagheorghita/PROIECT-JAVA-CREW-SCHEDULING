@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Alert?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client2.FlightFormController">
+    <children>
+        <Label layoutX="20.0" layoutY="20.0" text="Departure City:" />
+        <TextField fx:id="DepartureCityField" layoutX="150.0" layoutY="16.0" />
+
+        <Label layoutX="20.0" layoutY="60.0" text="Departure Country:" />
+        <TextField fx:id="DepartureCountryField" layoutX="150.0" layoutY="56.0" />
+
+        <Label layoutX="20.0" layoutY="100.0" text="Arrival City:" />
+        <TextField fx:id="ArrivalCityField" layoutX="150.0" layoutY="96.0" />
+
+        <Label layoutX="20.0" layoutY="140.0" text="Arrival Country:" />
+        <TextField fx:id="ArrivalCountryField" layoutX="150.0" layoutY="136.0" />
+
+        <Label layoutX="20.0" layoutY="180.0" text="Day of the Week:" />
+        <ChoiceBox fx:id="days" layoutX="150.0" layoutY="176.0" />
+
+        <Label layoutX="20.0" layoutY="220.0" text="Departure Time:" />
+        <ChoiceBox fx:id="departureTime" layoutX="150.0" layoutY="216.0" />
+
+        <Label layoutX="20.0" layoutY="260.0" text="Arrival Time:" />
+        <ChoiceBox fx:id="arrivalTime" layoutX="150.0" layoutY="256.0" />
+
+        <Label layoutX="20.0" layoutY="300.0" text="Number of passengers:" />
+        <Spinner fx:id="number" layoutX="150.0" layoutY="296.0" min="20" max="600" />
+
+        <Button fx:id="submitButton" layoutX="260.0" layoutY="340.0" onAction="#handleSubmitButton" text="Submit" />
+    </children>
+</AnchorPane>
