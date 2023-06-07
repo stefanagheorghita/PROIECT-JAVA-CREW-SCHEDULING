@@ -101,7 +101,7 @@
           <i class="fas fa-home"></i>
           <span class="nav-item">Home</span>
         </a></li>
-        <li><a href="#">
+        <li><a href="http://localhost:8084/flights">
           <i class="fas fa-bullhorn"></i>
           <span class="nav-item">Flights</span>
         </a></li>
@@ -137,7 +137,6 @@
     fetch('http://localhost:8084/employees/pilots/count')
         .then(response => response.json())
         .then(data => {
-            // Extract the pilots count from the response
             const pilotsCount = data;
 
            console.log(pilotsCount);

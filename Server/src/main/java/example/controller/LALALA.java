@@ -1,17 +1,25 @@
 package example.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import example.data.AirplaneGeneratorLargeInstance;
 import example.data.FlightGeneratorLargeInstance;
+import example.model.entity.Airplane;
 import example.model.entity.Flight;
 import example.repository.EmployeeRepository;
 import example.repository.FlightRepository;
 import example.repository.PilotRepository;
 import example.solution.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+import java.util.HashMap;
+
+@Controller
 public class LALALA {
 
     @Autowired
@@ -40,23 +48,36 @@ public class LALALA {
     @Autowired
     private CopilotsDistribution copilotsDistribution;
 
-    @PostMapping("/lalala")
-    public String lalala() {
+    @GetMapping("/flights")
+    public String flightsGet() {
+        return "flights";
+    }
+
+    @PostMapping("/flights")
+    @ResponseBody
+    public String flights() {
         System.gc();
         Runtime runtime = Runtime.getRuntime();
         long usedMemoryBefore =
                 runtime.totalMemory() - runtime.freeMemory();
         long initialTime = System.currentTimeMillis();
 
-        System.out.println("lalala");
-        planeAllocator.allocatePlanes();
+        HashMap<Flight, Airplane> map= planeAllocator.allocatePlanes();
         long runningTime = System.currentTimeMillis() - initialTime;
         long usedMemoryAfter =
                 runtime.totalMemory() - runtime.freeMemory();
         long memoryIncrease = usedMemoryAfter - usedMemoryBefore;
         System.out.println("Running time: " + runningTime + " ms");
         System.out.println("Memory increase: " + memoryIncrease + " bytes");
-        return "lalala";
+        ObjectMapper objectMapper = new ObjectMapper();
+        String flightMapJson;
+        try {
+            flightMapJson = objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+
+            flightMapJson = "{}";
+        }
+        return flightMapJson;
     }
 
     @PostMapping("/lilili")
@@ -81,15 +102,12 @@ public class LALALA {
     @PostMapping("/lululu")
     public String lululu() {
         System.out.println("lululu");
-        System.out.println("alocare avioane");
         flightGeneratorLargeInstance.main(null);
         return "lululu";
     }
 
     @PostMapping("/lelele")
     public String lelele() {
-        System.out.println("lelele");
-        System.out.println("alocare avioane");
         airplaneGeneratorLargeInstance.main();
         return "lelele";
     }
@@ -101,7 +119,6 @@ public class LALALA {
         long usedMemoryBefore =
                 runtime.totalMemory() - runtime.freeMemory();
         long initialTime = System.currentTimeMillis();
-        System.out.println("olala");
         flightEngineerDistribution.initial();
         long runningTime = System.currentTimeMillis() - initialTime;
         long usedMemoryAfter =

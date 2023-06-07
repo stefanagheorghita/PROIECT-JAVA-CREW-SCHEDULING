@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flight and Airplane Data</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>$(document).ready(function() {
+    $.ajax({
+        type: "POST",
+        url: "/flights",
+        success: function(data) {
+            var flightMap = JSON.parse(data);
+            var table = "<table>";
+            table += "<tr><th>Flight </th><th>Airplane ID</th></tr>";
+
+            for (var flight in flightMap) {
+                if (flightMap.hasOwnProperty(flight)) {
+                  console.log(flight["id"]);
+                    var airplane = flightMap[flight];
+<!--                    var flightId = flightMap[flight].id;-->
+<!--                    var departureCity = flightMap[flight].departureCity;-->
+<!--                    var arrivalCity = flight.arrivalCity;-->
+<!--                    var departureDay = flight.departureDay;-->
+<!--                    var departureTime = flight.departureTime;-->
+<!--                    var arrivalTime = flight.arrivalTime;-->
+                    var airplaneId = airplane.id;
+                    table += "<tr><td>" +flight +"</td><td>" + airplaneId + "</td></tr>";
+                }
+            }
+
+            table += "</table>";
+            $("#flight-data").html(table);
+        }
+    });
+});
+
+    </script>
+  <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<h1>Flight and Airplane Data</h1>
+<div id="flight-data"></div>
+</body>
+</html>
