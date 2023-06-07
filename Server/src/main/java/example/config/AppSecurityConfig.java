@@ -19,20 +19,24 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    public AppSecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
     public static BCryptPasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().anyRequest().permitAll();
+          http.csrf().disable().authorizeRequests().anyRequest().permitAll();
 
 //        http.authorizeHttpRequests()
-//                .antMatchers(HttpMethod.GET, "/", "/login","/register").permitAll()
+//                .antMatchers(HttpMethod.GET, "/", "/login", "/register").permitAll()
 //                .antMatchers(HttpMethod.POST, "/register").permitAll()
 //                .anyRequest().authenticated();
 //        http.formLogin()
-//                .loginPage("http://localhost:8084/login")
+//                .loginPage("/login")
 //                .loginProcessingUrl("/login");
 //        http.httpBasic();
 //        http.cors().and().csrf().disable();
@@ -45,7 +49,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
         provider.setPasswordEncoder(getPasswordEncoder());
         provider.setUserDetailsService(userDetailsService);
-
+        System.out.println("authProvider");
+        System.out.println(provider);
         return provider;
     }
 }

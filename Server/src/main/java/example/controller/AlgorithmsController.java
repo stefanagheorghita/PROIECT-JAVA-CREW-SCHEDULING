@@ -10,17 +10,19 @@ import example.repository.EmployeeRepository;
 import example.repository.FlightRepository;
 import example.repository.PilotRepository;
 import example.solution.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
 @Controller
-public class LALALA {
+@Tag(name = "Algorithms", description = "Algorithms for solving the problem")
+public class AlgorithmsController {
 
     @Autowired
     private PlaneAllocator planeAllocator;
@@ -49,12 +51,14 @@ public class LALALA {
     private CopilotsDistribution copilotsDistribution;
 
     @GetMapping("/flights")
+    @Operation(summary = "Get flights with airplanes assigned")
     public String flightsGet() {
         return "flights";
     }
 
     @PostMapping("/flights")
     @ResponseBody
+    @Operation(summary = "Get flights with airplanes assigned")
     public String flights() {
         System.gc();
         Runtime runtime = Runtime.getRuntime();
@@ -62,7 +66,7 @@ public class LALALA {
                 runtime.totalMemory() - runtime.freeMemory();
         long initialTime = System.currentTimeMillis();
 
-        HashMap<Flight, Airplane> map= planeAllocator.allocatePlanes();
+        HashMap<Flight, Airplane> map = planeAllocator.allocatePlanes();
         long runningTime = System.currentTimeMillis() - initialTime;
         long usedMemoryAfter =
                 runtime.totalMemory() - runtime.freeMemory();
@@ -81,6 +85,7 @@ public class LALALA {
     }
 
     @PostMapping("/lilili")
+    @Operation(summary = "Get flights with airplanes assigned graph")
     public String lilili() {
         System.gc();
         Runtime runtime = Runtime.getRuntime();
@@ -100,6 +105,7 @@ public class LALALA {
     }
 
     @PostMapping("/lululu")
+    @Operation(summary = "flight generator")
     public String lululu() {
         System.out.println("lululu");
         flightGeneratorLargeInstance.main(null);
@@ -107,12 +113,14 @@ public class LALALA {
     }
 
     @PostMapping("/lelele")
+    @Operation(summary = "airplane generator")
     public String lelele() {
         airplaneGeneratorLargeInstance.main();
         return "lelele";
     }
 
     @PostMapping("/olala")
+    @Operation(summary = "flight engineer distribution")
     public String olala() {
         System.gc();
         Runtime runtime = Runtime.getRuntime();
@@ -130,6 +138,7 @@ public class LALALA {
     }
 
     @PostMapping("/ululu")
+    @Operation(summary = "pilots distribution")
     public String ululu() {
         System.gc();
         Runtime runtime = Runtime.getRuntime();
@@ -150,6 +159,7 @@ public class LALALA {
     }
 
     @PostMapping("/alala")
+    @Operation(summary = "copilots distribution")
     private String alala() {
         System.gc();
         Runtime runtime = Runtime.getRuntime();
@@ -157,8 +167,8 @@ public class LALALA {
                 runtime.totalMemory() - runtime.freeMemory();
         long initialTime = System.currentTimeMillis();
         System.out.println("alala");
-       copilotsDistribution.initialize();
-         copilotsDistribution.distributeCopilots(employeeRepository.findEmployeesByCrewName("Copilot"));
+        copilotsDistribution.initialize();
+        copilotsDistribution.distributeCopilots(employeeRepository.findEmployeesByCrewName("Copilot"));
         long runningTime = System.currentTimeMillis() - initialTime;
         long usedMemoryAfter =
                 runtime.totalMemory() - runtime.freeMemory();
@@ -167,9 +177,6 @@ public class LALALA {
         System.out.println("Memory increase: " + memoryIncrease + " bytes");
         return "alala";
     }
-
-
-
 
 
 }

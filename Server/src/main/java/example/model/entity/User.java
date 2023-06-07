@@ -64,6 +64,6 @@ public class User implements UserDetails {
     }
 
     public void setEmployeeId(int employeeId) {
-
+        this.employee.setId(employeeId);
     }
 }

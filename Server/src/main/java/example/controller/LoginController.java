@@ -7,33 +7,39 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class LoginController {
 
     @Autowired
     private UserService userService;
+
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody LoginForm loginForm) {
+    public ResponseEntity<Object> login(@RequestBody LoginForm loginForm, HttpSession session) {
+        System.out.println("Login form: " + loginForm);
         int employeeId = loginForm.getEmployeeId();
         String password = loginForm.getPassword();
-         boolean match=example.config.AppSecurityConfig.getPasswordEncoder().matches(password, userService.findUserByEmployeeId(employeeId).getPassword());
+        boolean match = example.config.AppSecurityConfig.getPasswordEncoder().matches(password, userService.findUserByEmployeeId(employeeId).getPassword());
 
         User user = userService.findUserByEmployeeId(employeeId);
         System.out.println("Employee ID: " + employeeId);
         System.out.println("Password: " + password);
-       // System.out.println("Hashed Password: " + hashedPassword);
+        // System.out.println("Hashed Password: " + hashedPassword);
         System.out.println("Hashed Password user: " + user);
-        if(user == null) {
+        if (user == null) {
             return ResponseEntity.ok("Incorrect employee ID");
         }
-        if(!match) {
+        if (!match) {
             return ResponseEntity.ok("Incorrect password");
         }
+        session.setAttribute("authenticated", true);
+        session.setAttribute("username", employeeId);
         return ResponseEntity.ok("success");
     }
 
@@ -57,7 +63,6 @@ public class LoginController {
             this.password = password;
         }
     }
-
 
 
 }
