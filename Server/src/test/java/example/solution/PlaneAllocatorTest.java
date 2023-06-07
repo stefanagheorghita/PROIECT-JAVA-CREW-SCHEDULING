@@ -62,7 +62,7 @@ class PlaneAllocatorTest {
     @Test
     void testVerifyAvailability() {
 
-        Flight flight1 = new Flight(1,new City(1,"Iasi",new Country(1L,"Romania")),new City(2,"Berlin",new Country(2L,"Germania")),DayOfWeek.MONDAY,LocalTime.of(12,0),LocalTime.of(14,0),100);
+        Flight flight1 = new Flight(1,new City(1,"Iasi",new Country(1,"Romania")),new City(2,"Berlin",new Country(2,"Germania")),DayOfWeek.MONDAY,LocalTime.of(12,0),LocalTime.of(14,0),100);
         Airplane airplane1 = new Airplane(1,100);
         Airplane airplane2 = new Airplane(2,120);
         PlaneLocation planeLocation1 = new PlaneLocation(1,2,DayOfWeek.MONDAY,LocalTime.of(14,0));
@@ -72,7 +72,7 @@ class PlaneAllocatorTest {
         planeLocations.add(planeLocation2);
         airplane1.setFlights(new ArrayList<>());
         airplane2.setFlights(new ArrayList<>());
-        airplane2.getFlights().add(new Flight(2,new City(1,"Iasi",new Country(1L,"Romania")),new City(2,"Berlin",new Country(2L,"Germania")),DayOfWeek.MONDAY,LocalTime.of(11,0),LocalTime.of(14,0),100));
+        airplane2.getFlights().add(new Flight(2,new City(1,"Iasi",new Country(1,"Romania")),new City(2,"Berlin",new Country(2,"Germania")),DayOfWeek.MONDAY,LocalTime.of(11,0),LocalTime.of(14,0),100));
         boolean test1 = planeAllocator.verifyAvailability(airplane1,flight1.getDepartureDay(),flight1.getDepartureTime(),flight1.getArrivalTime(),planeLocations);
         assertEquals(true,test1);
         boolean test2 = planeAllocator.verifyAvailability(airplane2,flight1.getDepartureDay(),flight1.getDepartureTime(),flight1.getArrivalTime(),planeLocations);
@@ -81,10 +81,10 @@ class PlaneAllocatorTest {
 
     @Test
     void testFindAvailablePlane() {
-        Flight flight1 = new Flight(1,new City(2,"Berlin",new Country(2L,"Germania")),new City(3,"Munchen",new Country(2L,"Germania")),DayOfWeek.MONDAY,LocalTime.of(12,0),LocalTime.of(14,0),150);
-        Flight flight2 = new Flight(2,new City(1,"Iasi",new Country(1L,"Romania")),new City(2,"Berlin",new Country(2L,"Germania")),DayOfWeek.MONDAY,LocalTime.of(11,0),LocalTime.of(14,0),100);
-        Flight flight3 = new Flight(3,new City(1,"Iasi",new Country(1L,"Romania")),new City(2,"Berlin",new Country(2L,"Germania")),DayOfWeek.TUESDAY,LocalTime.of(11,0),LocalTime.of(14,0),100);
-        Flight flight4 = new Flight(4,new City(1,"Bucuresti",new Country(1L,"Romania")),new City(2,"Berlin",new Country(2L,"Germania")),DayOfWeek.MONDAY,LocalTime.of(10,0),LocalTime.of(11,0),100);
+        Flight flight1 = new Flight(1,new City(2,"Berlin",new Country(2,"Germania")),new City(3,"Munchen",new Country(2,"Germania")),DayOfWeek.MONDAY,LocalTime.of(12,0),LocalTime.of(14,0),150);
+        Flight flight2 = new Flight(2,new City(1,"Iasi",new Country(1,"Romania")),new City(2,"Berlin",new Country(2,"Germania")),DayOfWeek.MONDAY,LocalTime.of(11,0),LocalTime.of(14,0),100);
+        Flight flight3 = new Flight(3,new City(1,"Iasi",new Country(1,"Romania")),new City(2,"Berlin",new Country(2,"Germania")),DayOfWeek.TUESDAY,LocalTime.of(11,0),LocalTime.of(14,0),100);
+        Flight flight4 = new Flight(4,new City(1,"Bucuresti",new Country(1,"Romania")),new City(2,"Berlin",new Country(2,"Germania")),DayOfWeek.MONDAY,LocalTime.of(10,0),LocalTime.of(11,0),100);
         Airplane airplane1 = new Airplane(1,100);
         Airplane airplane2 = new Airplane(2,120);
         Airplane airplane3 = new Airplane(3,50);

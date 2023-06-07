@@ -21,8 +21,9 @@ import java.time.LocalDate;
         }
 )
 public class Employee  {
-    @GeneratedValue
     @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQUENCE101")
+    @SequenceGenerator(name="SEQUENCE101", sequenceName="SEQUENCE101", allocationSize=1)
     private int id;
     @Column(name = "first_name",
             nullable = false)

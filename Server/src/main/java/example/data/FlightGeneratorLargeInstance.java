@@ -29,9 +29,9 @@ public class FlightGeneratorLargeInstance {
         LocalTime time = LocalTime.of(0, 0);
         Random rand = new Random();
         for (int i = 0; i < 700; i++) {
-            Flight flight = new Flight(i+1);
-            int depart = rand.nextInt(1,cityRepository.findAll().size()+1);
-            int arrive = rand.nextInt(1,1+cityRepository.findAll().size());
+            Flight flight = new Flight(i + 1);
+            int depart = rand.nextInt(1, cityRepository.findAll().size() + 1);
+            int arrive = rand.nextInt(1, 1 + cityRepository.findAll().size());
 
             while (depart == arrive)
                 arrive = rand.nextInt(cityRepository.findAll().size());
@@ -47,7 +47,7 @@ public class FlightGeneratorLargeInstance {
             flight.setDepartureHour(flight.getDepartureTime().toString());
             flight.setArrivalHour(flight.getArrivalTime().toString());
             int day = rand.nextInt(7);
-            flight.setDepartureDay(DayOfWeek.of(day+1));
+            flight.setDepartureDay(DayOfWeek.of(day + 1));
             flight.setDepartureDayStr(flight.getDepartureDay().toString());
             flight.setAproxPassengers(rand.nextInt(20, 500));
             flightRepository.save(flight);

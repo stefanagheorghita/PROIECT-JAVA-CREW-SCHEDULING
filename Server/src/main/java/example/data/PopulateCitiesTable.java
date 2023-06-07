@@ -43,7 +43,7 @@ public class PopulateCitiesTable {
 
         // Create Country objects and add them to the list
         while (resultSet.next()) {
-            long id = resultSet.getLong("id");
+            int id = resultSet.getInt("id");
             String name = resultSet.getString("name");
             countries.add(new Country(id, name));
         }

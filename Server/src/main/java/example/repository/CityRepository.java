@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 public interface CityRepository extends JpaRepository<City, Long> {
     @Query(value = "SELECT * FROM cities WHERE country_id = :countryId", nativeQuery = true)
@@ -20,4 +21,9 @@ public interface CityRepository extends JpaRepository<City, Long> {
     City findCityById(int id);
 
     @Query(value = "SELECT * FROM cities where name=:name", nativeQuery = true)
-    List<City> findCityByName(@Param("name")String name);}
+    List<City> findCityByName(@Param("name") String name);
+
+    @Query(value = "SELECT * FROM cities where name=:name and country_id=:country_id", nativeQuery = true)
+    City findCityByNameCountry(@Param("name") String name, @Param("country_id") int country_id);
+
+}

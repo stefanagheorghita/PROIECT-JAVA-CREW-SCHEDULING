@@ -20,7 +20,7 @@ public class Country implements Serializable {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private int id;
 
     @Column(unique = true, nullable = false)
     private String name;
@@ -31,7 +31,7 @@ public class Country implements Serializable {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    public Country(Long id, String name) {
+    public Country(int id, String name) {
         this.id = id;
         this.name = name;
     }
