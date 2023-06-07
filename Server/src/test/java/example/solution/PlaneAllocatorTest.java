@@ -39,11 +39,11 @@ class PlaneAllocatorTest {
 
     @Test
     void testAllocatePlanes() {
-        Flight flight1 = new Flight(/* flight details */);
-        Flight flight2 = new Flight(/* flight details */);
+        Flight flight1 = new Flight();
+        Flight flight2 = new Flight();
 
-        Airplane airplane1 = new Airplane(/* airplane details */);
-        Airplane airplane2 = new Airplane(/* airplane details */);
+        Airplane airplane1 = new Airplane();
+        Airplane airplane2 = new Airplane();
 
         List<Flight> flights = new ArrayList<>();
         flights.add(flight1);

@@ -17,6 +17,7 @@ public class FlightMapper {
                 .departureDay(flight.getDepartureDay())
                 .airplane(flight.getAirplane())
                 .employeesNo(flight.getEmployeesNo())
+               // .pilotId(flight.getPilotId())
                 .build();
     }
 
@@ -28,6 +29,7 @@ public class FlightMapper {
                 .arrivalTime(flightDto.getArrivalTime())
                 .airplane(flightDto.getAirplane())
                 .employeesNo(flightDto.getEmployeesNo())
+              //  .pilotId(flightDto.getPilotId())
                 .build();
     }
 }

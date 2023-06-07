@@ -95,7 +95,7 @@ public class Flight implements Comparable<Flight>, Node , Serializable {
     @Column(name = "aprox_passengers")
     private Integer aproxPassengers;
 
-    @Column(name = "pilot_id")
+   @Column(name = "pilot_id")
     private Integer pilotId;
 
     @Transient

@@ -16,8 +16,12 @@ public class Graph {
     }
 
     public void addEdge(City sourceId, City destinationId, int flightId) {
-        adjacencyList.get(sourceId).add(new Edge(destinationId, flightId));
-        adjacencyList.get(destinationId).add(new Edge(sourceId, flightId));
+        if(!adjacencyList.containsKey(sourceId.getId()))
+            adjacencyList.put(sourceId.getId(), new ArrayList<>());
+        if(!adjacencyList.containsKey(destinationId.getId()))
+            adjacencyList.put(destinationId.getId(), new ArrayList<>());
+        adjacencyList.get(sourceId.getId()).add(new Edge(destinationId, flightId));
+        adjacencyList.get(destinationId.getId()).add(new Edge(sourceId, flightId));
     }
 
     public List<Edge> getEdges(int nodeId) {

@@ -67,7 +67,6 @@ public class PlaneAllocatorGraph {
                     airplane = airplane1;
                 }
             }
-
         }
     }
 

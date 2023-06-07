@@ -30,5 +30,7 @@ public class FlightDto {
     private Airplane airplane;
     private Integer employeesNo;
 
+   // private Integer pilotId;
+
 
 }
