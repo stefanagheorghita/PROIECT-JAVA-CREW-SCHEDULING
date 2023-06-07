@@ -31,4 +31,11 @@ public class Graph {
     public Set<Integer> getNodes() {
         return adjacencyList.keySet();
     }
+
+    @Override
+    public String toString() {
+        return "Graph{" +
+                "adjacencyList=" + adjacencyList +
+                '}';
+    }
 }

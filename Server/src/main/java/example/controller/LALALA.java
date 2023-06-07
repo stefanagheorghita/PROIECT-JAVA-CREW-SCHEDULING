@@ -2,9 +2,11 @@ package example.controller;
 
 import example.data.AirplaneGeneratorLargeInstance;
 import example.data.FlightGeneratorLargeInstance;
-import example.solution.FlightEngineerDistribution;
-import example.solution.PlaneAllocator;
-import example.solution.PlaneAllocatorGraph;
+import example.model.entity.Flight;
+import example.repository.EmployeeRepository;
+import example.repository.FlightRepository;
+import example.repository.PilotRepository;
+import example.solution.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +27,18 @@ public class LALALA {
 
     @Autowired
     private FlightEngineerDistribution flightEngineerDistribution;
+
+    @Autowired
+    private PilotsDistribution pilotsDistribution;
+    @Autowired
+    private FlightRepository flightRepository;
+    @Autowired
+    private PilotRepository pilotRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private CopilotsDistribution copilotsDistribution;
 
     @PostMapping("/lalala")
     public String lalala() {
@@ -97,6 +111,48 @@ public class LALALA {
         System.out.println("Memory increase: " + memoryIncrease + " bytes");
         return "olala";
     }
+
+    @PostMapping("/ululu")
+    public String ululu() {
+        System.gc();
+        Runtime runtime = Runtime.getRuntime();
+        long usedMemoryBefore =
+                runtime.totalMemory() - runtime.freeMemory();
+        long initialTime = System.currentTimeMillis();
+        System.out.println("ululu");
+        pilotsDistribution.initialize();
+        System.out.println(employeeRepository.findEmployeesByCrewName("Pilot").size());
+        pilotsDistribution.distributePilots(employeeRepository.findEmployeesByCrewName("Pilot"));
+        long runningTime = System.currentTimeMillis() - initialTime;
+        long usedMemoryAfter =
+                runtime.totalMemory() - runtime.freeMemory();
+        long memoryIncrease = usedMemoryAfter - usedMemoryBefore;
+        System.out.println("Running time: " + runningTime + " ms");
+        System.out.println("Memory increase: " + memoryIncrease + " bytes");
+        return "ululu";
+    }
+
+    @PostMapping("/alala")
+    private String alala() {
+        System.gc();
+        Runtime runtime = Runtime.getRuntime();
+        long usedMemoryBefore =
+                runtime.totalMemory() - runtime.freeMemory();
+        long initialTime = System.currentTimeMillis();
+        System.out.println("alala");
+       copilotsDistribution.initialize();
+         copilotsDistribution.distributeCopilots(employeeRepository.findEmployeesByCrewName("Copilot"));
+        long runningTime = System.currentTimeMillis() - initialTime;
+        long usedMemoryAfter =
+                runtime.totalMemory() - runtime.freeMemory();
+        long memoryIncrease = usedMemoryAfter - usedMemoryBefore;
+        System.out.println("Running time: " + runningTime + " ms");
+        System.out.println("Memory increase: " + memoryIncrease + " bytes");
+        return "alala";
+    }
+
+
+
 
 
 }

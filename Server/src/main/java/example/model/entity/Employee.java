@@ -5,6 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,10 +22,10 @@ import java.time.LocalDate;
                 @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, name = "result", type = void.class)
         }
 )
-public class Employee  {
+public class Employee {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQUENCE101")
-    @SequenceGenerator(name="SEQUENCE101", sequenceName="SEQUENCE101", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE101")
+    @SequenceGenerator(name = "SEQUENCE101", sequenceName = "SEQUENCE101", allocationSize = 1)
     private int id;
     @Column(name = "first_name",
             nullable = false)
@@ -53,7 +55,33 @@ public class Employee  {
 
     @Column(name = "updated_at")
     private Timestamp updatedAt;
+    @Transient
+    private Integer assignments=0;
 
+    @Transient
+    private List<Flight> flights=new ArrayList<>();
 
+    public Employee(int id, String firstName, String lastName, Timestamp birthdate, String gender, Crew crew, Timestamp createdAt, Timestamp updatedAt) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthdate;
+        this.gender=gender;
+        this.crew = crew;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
 
+    }
+
+    public Integer getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(Integer assignments) {
+        this.assignments = assignments;
+    }
+
+    public void incrementAssignments() {
+        assignments++;
+    }
 }

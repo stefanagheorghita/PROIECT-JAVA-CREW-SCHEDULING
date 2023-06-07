@@ -18,7 +18,7 @@ import java.time.LocalTime;
 @Builder
 @Entity
 @Table(name = "flights")
-public class Flight implements Comparable<Flight>, Node , Serializable {
+public class Flight implements Comparable<Flight>, Node, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE5")
     @SequenceGenerator(name = "SEQUENCE5", sequenceName = "SEQUENCE5", allocationSize = 1)
@@ -61,25 +61,25 @@ public class Flight implements Comparable<Flight>, Node , Serializable {
             arrivalTime = LocalTime.parse(arrivalHour);
         if (departureDayStr != null)
             switch (departureDayStr) {
-                case "Monday":
+                case "Monday", "MONDAY":
                     departureDay = DayOfWeek.MONDAY;
                     break;
-                case "Tuesday":
+                case "Tuesday", "TUESDAY":
                     departureDay = DayOfWeek.TUESDAY;
                     break;
-                case "Wednesday":
+                case "Wednesday", "WEDNESDAY":
                     departureDay = DayOfWeek.WEDNESDAY;
                     break;
-                case "Thursday":
+                case "Thursday", "THURSDAY":
                     departureDay = DayOfWeek.THURSDAY;
                     break;
-                case "Friday":
+                case "Friday", "FRIDAY":
                     departureDay = DayOfWeek.FRIDAY;
                     break;
-                case "Saturday":
+                case "Saturday", "SATURDAY":
                     departureDay = DayOfWeek.SATURDAY;
                     break;
-                case "Sunday":
+                case "Sunday", "SUNDAY":
                     departureDay = DayOfWeek.SUNDAY;
                     break;
             }
@@ -95,7 +95,7 @@ public class Flight implements Comparable<Flight>, Node , Serializable {
     @Column(name = "aprox_passengers")
     private Integer aproxPassengers;
 
-   @Column(name = "pilot_id")
+    @Column(name = "pilot_id")
     private Integer pilotId;
 
     @Transient
@@ -104,21 +104,21 @@ public class Flight implements Comparable<Flight>, Node , Serializable {
 
     @Override
     public int compareTo(Flight o) {
-        if(this.getDepartureDay()!=null && o.getDepartureDay()!=null)
-        if (this.getDepartureDay().compareTo(o.getDepartureDay()) != 0)
-            return this.getDepartureDay().compareTo(o.getDepartureDay());
-        else if (this.getDepartureTime().compareTo(o.getDepartureTime()) != 0)
-            return this.getDepartureTime().compareTo(o.getDepartureTime());
-        else
-            return this.getArrivalTime().compareTo(o.getArrivalTime());
+        if (this.getDepartureDay() != null && o.getDepartureDay() != null)
+            if (this.getDepartureDay().compareTo(o.getDepartureDay()) != 0)
+                return this.getDepartureDay().compareTo(o.getDepartureDay());
+            else if (this.getDepartureTime().compareTo(o.getDepartureTime()) != 0)
+                return this.getDepartureTime().compareTo(o.getDepartureTime());
+            else
+                return this.getArrivalTime().compareTo(o.getArrivalTime());
 
-        if(this.getDepartureDayStr()!=null && o.getDepartureDayStr()!=null)
+        if (this.getDepartureDayStr() != null && o.getDepartureDayStr() != null)
             if (this.getDepartureDayStr().compareTo(o.getDepartureDayStr()) != 0)
-            return this.getDepartureDayStr().compareTo(o.getDepartureDayStr());
-        else if (this.getDepartureHour().compareTo(o.getDepartureHour()) != 0)
-            return this.getDepartureHour().compareTo(o.getDepartureHour());
-        else
-            return this.getArrivalHour().compareTo(o.getArrivalHour());
+                return this.getDepartureDayStr().compareTo(o.getDepartureDayStr());
+            else if (this.getDepartureHour().compareTo(o.getDepartureHour()) != 0)
+                return this.getDepartureHour().compareTo(o.getDepartureHour());
+            else
+                return this.getArrivalHour().compareTo(o.getArrivalHour());
 
         return 0;
     }

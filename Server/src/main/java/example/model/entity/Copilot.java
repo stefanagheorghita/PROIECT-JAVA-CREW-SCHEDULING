@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "Copilot")
-public class Copilot {
+public class Copilot  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public class Copilot {
         this.assignments = 0;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 

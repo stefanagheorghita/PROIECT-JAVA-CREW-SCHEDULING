@@ -18,4 +18,6 @@ public class Edge {
     public int getFlightId() {
         return flightId;
     }
+
+
 }

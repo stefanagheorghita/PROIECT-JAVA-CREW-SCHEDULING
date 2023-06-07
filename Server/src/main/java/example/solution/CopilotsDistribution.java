@@ -1,13 +1,16 @@
 package example.solution;
 
 import example.model.entity.City;
+import example.model.entity.Employee;
 import example.model.entity.Flight;
 import example.model.entity.Copilot;
 import example.repository.CityRepository;
+import example.repository.EmployeeRepository;
 import example.repository.FlightRepository;
 import example.repository.CopilotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import javax.annotation.PostConstruct;
 import java.util.*;
 
@@ -18,6 +21,9 @@ public class CopilotsDistribution {
 
     @Autowired
     private CopilotRepository copilotRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     private Graph graph;
 
@@ -36,9 +42,6 @@ public class CopilotsDistribution {
     public List<City> loadCitiesFromDatabase() {
         List<City> cities = new ArrayList<>();
 
-        // Fetch cities from the database using JPA
-        // Replace "CityEntity" with your actual entity class name for cities
-
         List<City> cityEntities = cityRepository.findAll();
 
         for (City cityEntity : cityEntities) {
@@ -52,12 +55,10 @@ public class CopilotsDistribution {
     public Graph buildGraph(List<Flight> flights, List<City> cities) {
         Graph graph = new Graph();
 
-        // Add cities as nodes to the graph
         for (City city : cities) {
             graph.addNode(city.getId());
         }
 
-        // Add flights as edges to the graph
         for (Flight flight : flights) {
             graph.addEdge(flight.getDepartureCity(), flight.getArrivalCity(), flight.getId());
         }
@@ -65,11 +66,10 @@ public class CopilotsDistribution {
         return graph;
     }
 
-    public void distributeCopilots(List<Copilot> copilots) {
+    public void distributeCopilots(List<Employee> copilots) {
         for (int nodeId : graph.getNodes()) {
             List<Edge> edges = graph.getEdges(nodeId);
 
-            // Sort the flights based on their priorities
             List<Flight> flights = new ArrayList<>();
             for (Edge edge : edges) {
                 Flight flight = findFlightById(edge.getFlightId());
@@ -77,19 +77,50 @@ public class CopilotsDistribution {
             }
             Collections.sort(flights, new CopilotsDistribution.FlightPriorityComparator());
 
-            // Assign the copilot to each flight in the city
             for (Flight flight : flights) {
-                Copilot copilot = findAvailableCopilot(copilots);
-                flight.setCopilotId(copilot.getId());////
+                List<Employee> maybeCopilots = verifyFree(copilots, flight);
+                Employee copilot = findAvailableCopilot(maybeCopilots);
+                flight.setCopilotId(copilot.getId());
                 copilot.incrementAssignments();
+                System.out.println("Copilot " + copilot.getId() + " assigned to flight " + flight.getId());
             }
         }
     }
 
-    // Custom comparator to compare flights based on priority
+    private List<Employee> verifyFree(List<Employee> copilots, Flight flight) {
+        List<Employee> maybePilots = new ArrayList<>(copilots);
+        for (Employee copilot : copilots) {
+
+            if (copilot.getFlights() != null) {
+                if (copilot.getFlights().contains(flight)) {
+                    maybePilots.remove(copilot);
+                    continue;
+                }
+                for (Flight flight1 : copilot.getFlights()) {
+                    if (flight1.getDepartureDay().equals(flight.getDepartureDay())) {
+                        if (flight1.getDepartureTime().compareTo(flight.getDepartureTime()) < 0) {
+                            if (flight1.getArrivalTime().compareTo(flight.getDepartureTime()) > 0) {
+                                maybePilots.remove(copilot);
+                                break;
+                            }
+                        }
+                        if (flight1.getDepartureTime().compareTo(flight.getDepartureTime()) > 0) {
+                            if (flight1.getDepartureTime().compareTo(flight.getArrivalTime()) < 0) {
+                                maybePilots.remove(copilot);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return copilots;
+    }
+
     private static class FlightPriorityComparator implements Comparator<Flight> {
         @Override
         public int compare(Flight f1, Flight f2) {
+            if (f1.getDepartureDay() == null || f2.getDepartureDay() == null) return 0;
             if (f1.getDepartureDay().compareTo(f2.getDepartureDay()) != 0) {
                 return f1.getDepartureDay().compareTo(f2.getDepartureDay());
             } else if (f1.getDepartureTime().compareTo(f2.getDepartureTime()) != 0) {
@@ -100,14 +131,12 @@ public class CopilotsDistribution {
         }
     }
 
-    public Copilot findAvailableCopilot(List<Copilot> copilots) {
-        // Find an available pilot based on your criteria
-        // Here's a simple example that finds the pilot with the fewest assignments
+    public Employee findAvailableCopilot(List<Employee> copilots) {
 
-        Copilot availableCopilot = null;
+        Employee availableCopilot = null;
         int minAssignments = Integer.MAX_VALUE;
 
-        for (Copilot copilot : copilots) {
+        for (Employee copilot : copilots) {
             if (copilot.getAssignments() < minAssignments) {
                 availableCopilot = copilot;
                 minAssignments = copilot.getAssignments();
@@ -118,9 +147,6 @@ public class CopilotsDistribution {
     }
 
     public Flight findFlightById(int flightId) {
-        // Find a flight by its ID from the loaded flights list
-        // Here's a simple example using JPA
-
         Optional<Flight> optionalFlight = Optional.ofNullable(flightRepository.findFlightById(flightId));
         return optionalFlight.orElse(null);
     }
