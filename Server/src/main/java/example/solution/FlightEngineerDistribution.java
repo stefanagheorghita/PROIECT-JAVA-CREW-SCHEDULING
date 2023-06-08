@@ -29,6 +29,11 @@ public class FlightEngineerDistribution {
     List<Employee> flightEngineers;
     List<Flight> flights;
 
+    /**
+     * This method initializes the availability matrix with 1.
+     * Every flight engineer is available for every flight.
+     */
+
     public void initial() {
         flightEngineers = employeeRepository.findEmployeesByCrewName("Flight Engineer");
         flights = flightRepository.findAll();
@@ -41,6 +46,10 @@ public class FlightEngineerDistribution {
         main(null);
     }
 
+    /**
+     * Making the assignment of flight engineers to flights
+     * @param args
+     */
     public void main(String[] args) {
         Model model = new Model("Flight Engineer Assignment");
         int numEngineers = flightEngineers.size();
@@ -78,7 +87,11 @@ public class FlightEngineerDistribution {
         }
     }
 
-
+    /**
+     * Updates the availability matrix after an engineer is assigned to a flight
+     * @param flightIndex
+     * @param engineerIndex
+     */
     public void updateMatrix(int flightIndex, int engineerIndex) {
         Flight flight = flights.get(flightIndex);
         DayOfWeek day = flight.getDepartureDay();

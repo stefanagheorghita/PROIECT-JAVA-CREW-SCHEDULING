@@ -39,6 +39,10 @@ public class PlaneAllocatorGraph {
         max();
         return null;
     }
+    /**
+     * This method calculates the weight of the edge between flights and airplanes
+     * @return
+     */
 
     public void allocateWeights() {
         for (Flight flight : flightRepository.findAll()) {
@@ -69,6 +73,10 @@ public class PlaneAllocatorGraph {
             }
         }
     }
+
+    /**
+     * Making assignments
+     */
 
     public void assignments() {
         List<Airplane> airplanes = airplaneRepository.findAll();
@@ -156,6 +164,12 @@ public class PlaneAllocatorGraph {
         System.out.println("Flights allocated: "+sortedMap.size());
 
     }
+    /**
+     * Calculates the weight of the edge between flight and airplane
+     * @param flight
+     * @param airplane
+     * @return
+     */
 
     private double calculateWeight(Flight flight, Airplane airplane) {
 

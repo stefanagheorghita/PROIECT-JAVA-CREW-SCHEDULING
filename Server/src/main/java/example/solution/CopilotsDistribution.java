@@ -66,6 +66,10 @@ public class CopilotsDistribution {
         return graph;
     }
 
+    /**
+     * Distribute copilots to flights
+     * @param copilots
+     */
     public void distributeCopilots(List<Employee> copilots) {
         for (int nodeId : graph.getNodes()) {
             List<Edge> edges = graph.getEdges(nodeId);
@@ -87,6 +91,12 @@ public class CopilotsDistribution {
         }
     }
 
+    /**
+     * Find free copilots
+     * @param copilots
+     * @param flight
+     * @return
+     */
     private List<Employee> verifyFree(List<Employee> copilots, Flight flight) {
         List<Employee> maybePilots = new ArrayList<>(copilots);
         for (Employee copilot : copilots) {

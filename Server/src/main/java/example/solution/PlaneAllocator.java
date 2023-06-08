@@ -24,6 +24,10 @@ public class PlaneAllocator {
     @Autowired
     private FlightRepository flightRepository;
 
+    /**
+     * This method allocates planes to flights
+     * @return
+     */
 
     public HashMap<Flight, Airplane> allocatePlanes() {
         List<Flight> flights=flightRepository.findAll();
@@ -86,6 +90,15 @@ public class PlaneAllocator {
         return flightAirplaneHashMap;
     }
 
+    /**
+     * This method verifies if a plane is available for a flight, according to the day of the week, departure time and arrival time
+     * @param airplane
+     * @param dayOfWeek
+     * @param departureTime
+     * @param arrivalTime
+     * @param planeLocations
+     * @return
+     */
     public boolean verifyAvailability(Airplane airplane, DayOfWeek dayOfWeek, LocalTime departureTime, LocalTime arrivalTime, HashSet<PlaneLocation> planeLocations) {
         if(airplane.getFlights()==null)
             return true;
@@ -94,6 +107,17 @@ public class PlaneAllocator {
                 return false;
         return true;
     }
+
+    /**
+     * This method finds available planes for a flight, verifying if there is a plane available in the departure city, at the departure time, with a capacity of at least 80% of the flight capacity
+     * @param planeLocations
+     * @param departureCityId
+     * @param dayOfWeek
+     * @param departureTime
+     * @param arrivalTime
+     * @param flightCapacity
+     * @return
+     */
 
     public List<Airplane> findAvailablePlane(HashSet<PlaneLocation> planeLocations, int departureCityId, DayOfWeek dayOfWeek, LocalTime departureTime, LocalTime arrivalTime, int flightCapacity) {
         List<Airplane> availablePlanes = new ArrayList<>();
