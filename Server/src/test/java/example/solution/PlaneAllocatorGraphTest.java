@@ -131,7 +131,6 @@ public class PlaneAllocatorGraphTest {
         //assertEquals(1, difference.toHours());
     }
 
-    // Setter methods for dependencies
 
     private void setAirplaneRepository(AirplaneRepository airplaneRepository) {
         this.airplaneRepository = airplaneRepository;
@@ -141,7 +140,7 @@ public class PlaneAllocatorGraphTest {
         this.flightRepository = flightRepository;
     }
 
-    // Getter methods for private fields
+
 
     //private Map<Flight, HashMap<Airplane, Double>> getFlightAirplaneWeightMap() {
         //return flightAirplaneWeightMap;
